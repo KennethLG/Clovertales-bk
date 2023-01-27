@@ -24,6 +24,12 @@ functions:
       - httpApi:
           path: /members
           method: get
+  getPlatforms:
+    handler: src/functions/getPlatforms.handler
+    events:
+      - httpApi:
+          path: /platforms
+          method: get
 
 resources:
   Resources:
