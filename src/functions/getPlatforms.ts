@@ -4,8 +4,8 @@ import { SuccessResponseCS } from "src/helpers/responses";
 export const handler = async () => {
   const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-  const params = {
-    TableName: "Members",
+  const params: AWS.DynamoDB.DocumentClient.GetItemInput = {
+    TableName: "Platforms",
     Key: {
       available: {
         BOOL: true,
@@ -15,12 +15,12 @@ export const handler = async () => {
 
   const result = await dynamoDb.get(params).promise();
 
-  const member = result.Item;
+  const platforms = result.Item;
 
   return new SuccessResponseCS(
     {
-      data: member,
+      data: platforms,
     },
-    "Members found successfully"
+    "Platforms found successfully"
   );
 };
