@@ -36,14 +36,33 @@ resources:
     MembersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: Members
+        TableName: MembersTable
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
+          - AttributeName: name
+            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+          - AttributeName: name
+            KeyType: RANGE
+    PlatformsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: PlatformsTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: name
+            KeyType: RANGE
 plugins:
   - serverless-esbuild
   - serverless-offline

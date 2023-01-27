@@ -1,25 +1,23 @@
 import AWS from "aws-sdk";
 import { SuccessResponseCS } from "src/helpers/responses";
+import { Member } from "src/models/Member";
 
 export const handler = async () => {
   const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
-  const params = {
-    TableName: "Members",
-    Key: {
-      available: {
-        BOOL: true,
-      },
-    },
+  const params: AWS.DynamoDB.DocumentClient.QueryInput = {
+    TableName: "MembersTable",
   };
 
-  const result = await dynamoDb.get(params).promise();
+  const response = await dynamoDb.scan(params).promise();
 
-  const member = result.Item;
+  const result = response.Items as Member[];
+
+  const members = result.filter((member) => member.available);
 
   return new SuccessResponseCS(
     {
-      data: member,
+      data: members,
     },
     "Members found successfully"
   );
