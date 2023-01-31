@@ -15,7 +15,9 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: ${env:AWS_DYNAMODB_ARN}
+      Resource:
+        - Fn::GetAtt: [MembersTable, Arn]
+        - Fn::GetAtt: [PlatformsTable, Arn]
 
 functions:
   getMembers:
