@@ -6,6 +6,7 @@ export class SuccessResponseCS<T> {
   constructor(body: T, message: string, statusCode: number = 200) {
     this.body = JSON.stringify({
       ...body,
+      message,
     });
     this.message = message;
     this.statusCode = statusCode;
