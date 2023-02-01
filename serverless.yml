@@ -2,6 +2,10 @@ service: cloverstory-bk
 frameworkVersion: "3"
 useDotenv: true
 
+custom:
+  serverless-offline:
+    httpPort: ${env:PORT}
+
 provider:
   name: aws
   runtime: nodejs14.x
@@ -18,6 +22,13 @@ provider:
       Resource:
         - Fn::GetAtt: [MembersTable, Arn]
         - Fn::GetAtt: [PlatformsTable, Arn]
+  environment:
+    AWS_DYNAMODB_ARN: ${env:AWS_DYNAMODB_ARN}
+    PORT: ${env:PORT}
+    MAILER_HOST: ${env:MAILER_HOST}
+    MAILER_PORT: ${env:MAILER_PORT}
+    MAILER_USER: ${env:MAILER_USER}
+    MAILER_PASS: ${env:MAILER_PASS}
 
 functions:
   getMembers:
@@ -32,6 +43,12 @@ functions:
       - httpApi:
           path: /platforms
           method: get
+  sendMail:
+    handler: src/functions/sendMail.handler
+    events:
+      - httpApi:
+          path: /sendMail
+          method: post
 
 resources:
   Resources:
