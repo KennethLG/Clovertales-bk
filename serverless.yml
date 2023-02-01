@@ -29,6 +29,8 @@ provider:
     MAILER_PORT: ${env:MAILER_PORT}
     MAILER_USER: ${env:MAILER_USER}
     MAILER_PASS: ${env:MAILER_PASS}
+  httpApi:
+    cors: true
 
 functions:
   getMembers:
@@ -37,21 +39,18 @@ functions:
       - httpApi:
           path: /members
           method: get
-          cors: true
   getPlatforms:
     handler: src/functions/getPlatforms.handler
     events:
       - httpApi:
           path: /platforms
           method: get
-          cors: true
   sendMail:
     handler: src/functions/sendMail.handler
     events:
       - httpApi:
           path: /sendMail
           method: post
-          cors: true
 
 resources:
   Resources:
