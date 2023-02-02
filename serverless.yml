@@ -58,6 +58,12 @@ functions:
       - httpApi:
           path: /posts
           method: post
+  getPosts:
+    handler: src/functions/getPosts.handler
+    events:
+      - httpApi:
+          path: /posts
+          method: get
 
 resources:
   Resources:
