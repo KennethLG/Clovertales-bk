@@ -22,6 +22,7 @@ provider:
       Resource:
         - Fn::GetAtt: [MembersTable, Arn]
         - Fn::GetAtt: [PlatformsTable, Arn]
+        - Fn::GetAtt: [PostsTable, Arn]
   environment:
     AWS_DYNAMODB_ARN: ${env:AWS_DYNAMODB_ARN}
     PORT: ${env:PORT}
@@ -50,6 +51,12 @@ functions:
     events:
       - httpApi:
           path: /sendMail
+          method: post
+  createPost:
+    handler: src/functions/createPost.handler
+    events:
+      - httpApi:
+          path: /posts
           method: post
 
 resources:
@@ -83,6 +90,21 @@ resources:
           - AttributeName: id
             KeyType: HASH
           - AttributeName: name
+            KeyType: RANGE
+    PostsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: PostsTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: title
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: title
             KeyType: RANGE
 plugins:
   - serverless-esbuild
