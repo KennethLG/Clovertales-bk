@@ -5,4 +5,7 @@ export default {
     user: process.env.MAILER_USER || "test",
     pass: process.env.MAILER_PASS || "test",
   },
+  aws: {
+    bucket: process.env.AWS_BUCKET_NAME as string,
+  },
 };
