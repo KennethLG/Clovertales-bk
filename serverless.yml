@@ -52,18 +52,6 @@ functions:
       - httpApi:
           path: /sendMail
           method: post
-  createPost:
-    handler: src/functions/createPost.handler
-    events:
-      - httpApi:
-          path: /posts
-          method: post
-  getPosts:
-    handler: src/functions/getPosts.handler
-    events:
-      - httpApi:
-          path: /posts
-          method: get
 
 resources:
   Resources:

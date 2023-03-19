@@ -7,5 +7,5 @@ export default {
   },
   aws: {
     bucket: process.env.AWS_BUCKET_NAME as string,
-  },
+  }
 };
