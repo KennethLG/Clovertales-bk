@@ -6,4 +6,5 @@ export interface Post {
   imageUrl: string;
   createdAt: string;
   updatedAt: string;
+  available: boolean;
 }

@@ -17,6 +17,7 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
           description,
           content,
           imageUrl,
+          available: true,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
         }
