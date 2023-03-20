@@ -3,10 +3,11 @@ import AWS from "aws-sdk";
 
 export const handler: APIGatewayProxyHandler = async (event, _context): Promise<APIGatewayProxyResult> => {
   const dynamoDb = new AWS.DynamoDB.DocumentClient();
+  const TableName = "PostsTable";
   try {
     if (event.queryStringParameters && event.queryStringParameters.id) {
       const params = {
-        TableName: "Posts",
+        TableName,
         Key: {
           id: event.queryStringParameters.id,
         },
@@ -20,7 +21,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context): Promise<
       };
     } else {
       const params = {
-        TableName: "Posts",
+        TableName,
       };
 
       const result = await dynamoDb.scan(params).promise();
