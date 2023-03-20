@@ -52,6 +52,12 @@ functions:
       - httpApi:
           path: /sendMail
           method: post
+  createPost:
+    handler: src/functions/createPost.handler
+    events:
+      - httpApi:
+          path: /post
+          method: post
 
 resources:
   Resources:
