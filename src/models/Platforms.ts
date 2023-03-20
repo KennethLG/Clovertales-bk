@@ -3,4 +3,5 @@ export interface Platform {
   createdAt: string;
   updatedAt: string;
   post: string;
+  available: boolean;
 }

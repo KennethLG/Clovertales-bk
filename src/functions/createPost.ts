@@ -10,7 +10,7 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
       );
 
       const params = {
-        TableName: 'Posts',
+        TableName: 'PostsTable',
         Item: {
           id: uuidv4(),
           title,
