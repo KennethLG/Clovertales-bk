@@ -110,13 +110,9 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
-          - AttributeName: title
-            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
-          - AttributeName: title
-            KeyType: RANGE
 plugins:
   - serverless-esbuild
   - serverless-offline

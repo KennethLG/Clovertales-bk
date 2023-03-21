@@ -1,17 +1,21 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from "aws-lambda";
 import AWS from "aws-sdk";
 
-export const handler: APIGatewayProxyHandler = async (event, _context): Promise<APIGatewayProxyResult> => {
+export const handler: APIGatewayProxyHandler = async (
+  event,
+  _context
+): Promise<APIGatewayProxyResult> => {
   const dynamoDb = new AWS.DynamoDB.DocumentClient();
   const TableName = "PostsTable";
   try {
     if (event.queryStringParameters && event.queryStringParameters.id) {
-      const params = {
+      const params: AWS.DynamoDB.DocumentClient.GetItemInput = {
         TableName,
         Key: {
           id: event.queryStringParameters.id,
         },
       };
+
 
       const result = await dynamoDb.get(params).promise();
 
@@ -32,6 +36,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context): Promise<
       };
     }
   } catch (error) {
+
     return {
       statusCode: 500,
       body: JSON.stringify(error),
