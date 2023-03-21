@@ -1,7 +1,7 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from "aws-lambda";
 import AWS from "aws-sdk";
 
-export const editPost: APIGatewayProxyHandler = async (
+export const updatePost: APIGatewayProxyHandler = async (
   event
 ): Promise<APIGatewayProxyResult> => {
   const dynamoDb = new AWS.DynamoDB.DocumentClient();

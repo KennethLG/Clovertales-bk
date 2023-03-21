@@ -70,6 +70,12 @@ functions:
       - httpApi:
           path: /post
           method: delete
+  updatePost:
+    handler: src/functions/updatePost.handler
+    events:
+      - httpApi:
+          path: /post
+          method: put
 resources:
   Resources:
     MembersTable:
