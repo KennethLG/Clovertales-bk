@@ -1,7 +1,7 @@
 export interface Platform {
   id: string;
-  createdAt: string;
-  updatedAt: string;
-  post: string;
+  name: string;
+  link: string;
+  iconName: string;
   available: boolean;
 }
