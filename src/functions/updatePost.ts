@@ -1,18 +1,18 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from "aws-lambda";
 import AWS from "aws-sdk";
 
-export const updatePost: APIGatewayProxyHandler = async (
+export const handler: APIGatewayProxyHandler = async (
   event
 ): Promise<APIGatewayProxyResult> => {
   const dynamoDb = new AWS.DynamoDB.DocumentClient();
   try {
-    const { postId, title, description, content, imageUrl } = JSON.parse(
+    const { id, title, description, content, imageUrl } = JSON.parse(
       event.body as string
     );
 
     const params = {
       TableName: "PostsTable",
-      Key: { id: postId },
+      Key: { id },
       UpdateExpression: "set #t = :t, #d = :d, #c = :c, #i = :i, #uA = :uA",
       ExpressionAttributeNames: {
         "#t": "title",
