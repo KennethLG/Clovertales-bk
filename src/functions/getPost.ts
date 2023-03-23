@@ -19,6 +19,13 @@ export const handler: APIGatewayProxyHandler = async (
 
       const result = await dynamoDb.get(params).promise();
 
+      if (!result.Item) {
+        return {
+          statusCode: 404,
+          body: JSON.stringify({ message: "Item not found" }),
+        };
+      }
+
       return {
         statusCode: 200,
         body: JSON.stringify(result.Item),
