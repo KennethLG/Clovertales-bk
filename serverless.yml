@@ -25,6 +25,7 @@ provider:
         - Fn::GetAtt: [PostsTable, Arn]
   environment:
     AWS_DYNAMODB_ARN: ${env:AWS_DYNAMODB_ARN}
+    AWS_BUCKET_NAME: ${env:AWS_BUCKET_NAME}
     PORT: ${env:PORT}
     MAILER_HOST: ${env:MAILER_HOST}
     MAILER_PORT: ${env:MAILER_PORT}
@@ -76,6 +77,12 @@ functions:
       - httpApi:
           path: /post
           method: put
+  uploadGallery:
+    handler : src/functions/uploadGallery.handler
+    events:
+      - httpApi:
+          path: /gallery
+          method: post
 resources:
   Resources:
     MembersTable:
