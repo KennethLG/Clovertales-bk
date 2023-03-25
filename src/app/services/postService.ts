@@ -1,6 +1,7 @@
 import { Post } from "src/domain/entities/post";
 import PostRepository from "src/domain/repositories/postRepository";
 import { CreatePostDto } from "src/presentation/dto/postDto";
+import { NotFoundError } from "src/presentation/utils/customError";
 import { v4 as uuidv4} from "uuid";
 
 export default class PostService {
@@ -23,7 +24,7 @@ export default class PostService {
     const result = await this.postRepository.get(id);
 
     if (!result) {
-      throw new Error("Post not found");
+      throw new NotFoundError(`Post ${id} not found`);
     }
 
     return result;
