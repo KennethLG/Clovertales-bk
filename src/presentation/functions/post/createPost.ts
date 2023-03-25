@@ -1,4 +1,5 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from "aws-lambda";
+import { ResponseHandler } from "src/presentation/utils/responses";
 import { CreatePostDto } from "./createPostDto";
 import { createPostDependencies } from "./postDependenciesFactory";
 
@@ -13,10 +14,7 @@ export const handler: APIGatewayProxyHandler = async (
 
     const newPost = await createPost.execute(createPostDto);
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(newPost),
-    };
+    return new ResponseHandler().success(newPost);
   } catch (error) {
     return {
       statusCode: 500,
