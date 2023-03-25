@@ -1,5 +1,5 @@
 import AWS from "aws-sdk";
-import { SuccessResponseCS } from "src/helpers/responses";
+import { SuccessResponseCS } from "src/presentation/utils/responses";
 import { Platform } from "src/models/Platforms";
 
 export const handler = async () => {

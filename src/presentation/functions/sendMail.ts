@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
 import nodemailer from "nodemailer";
-import config from "src/config";
-import { SuccessResponseCS } from "src/helpers/responses";
+import config from "src";
+import { SuccessResponseCS } from "src/presentation/utils/responses";
 
 interface SendEmailRequest {
   email: string;

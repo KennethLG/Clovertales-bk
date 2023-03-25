@@ -1,6 +1,6 @@
 import AWS from "aws-sdk";
-import { SuccessResponseCS } from "src/helpers/responses";
-import { Member } from "src/models/Member";
+import { SuccessResponseCS } from "src/presentation/utils/responses";
+import { Member } from "src/domain/entities/member";
 
 export const handler = async () => {
   const dynamoDb = new AWS.DynamoDB.DocumentClient();
