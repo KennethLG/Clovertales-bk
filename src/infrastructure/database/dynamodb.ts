@@ -15,6 +15,17 @@ export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap> impl
     });
   }
 
+  async delete(id: string): Promise<void> {
+    const params: AWS.DynamoDB.DocumentClient.DeleteItemInput = {
+      TableName: this.tableName,
+      Key: {
+        id,
+      },
+    };
+
+    await this.documentClient.delete(params).promise();
+  }
+
   async create(item: T): Promise<T> {
     const params = {
       TableName: this.tableName,
@@ -46,4 +57,6 @@ export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap> impl
     const result = await this.documentClient.scan(params).promise();
     return result.Items as T[];
   }
+
+  
 }

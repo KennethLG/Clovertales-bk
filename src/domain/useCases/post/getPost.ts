@@ -1,6 +1,5 @@
 import PostService from "src/app/services/postService";
 import { Post } from "src/domain/entities/post";
-import { CreatePostDto } from "src/presentation/dto/postDto";
 
 export default class GetPost {
   constructor(private postService: PostService) {}

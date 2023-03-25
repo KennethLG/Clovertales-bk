@@ -33,4 +33,8 @@ export default class PostService {
   async getAll(): Promise<Post[]> {
     return await this.postRepository.getAll();
   }
+
+  async delete(id: string): Promise<void> {
+    return await this.postRepository.delete(id);
+  }
 }

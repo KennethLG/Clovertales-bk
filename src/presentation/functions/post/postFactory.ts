@@ -1,6 +1,7 @@
 import PostService from "src/app/services/postService";
 import { Post } from "src/domain/entities/post";
 import CreatePost from "src/domain/useCases/post/createPost";
+import DeletePost from "src/domain/useCases/post/deletePost";
 import GetPost from "src/domain/useCases/post/getPost";
 import { DynamoDbClient } from "src/infrastructure/database/dynamodb";
 import PostRepositoryImpl from "src/infrastructure/repositories/postRepository";
@@ -28,3 +29,9 @@ export const getPostUseCaseFactory = () => {
   const createPost = new GetPost(postService);
   return createPost;
 }
+
+export const deletePostUseCaseFactory = () => {
+  const postService = postServiceFactory();
+  const createPost = new DeletePost(postService);
+  return createPost;
+};

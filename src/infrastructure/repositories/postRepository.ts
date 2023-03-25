@@ -7,6 +7,9 @@ export default class PostRepositoryImpl implements PostRepository {
   constructor(db: DbClient<Post>) {
     this.dbClient = db;
   }
+  async delete(id: string) {
+    await this.dbClient.delete(id);
+  }
 
   async create(post: Post) {
     const result = await this.dbClient.create(post);
