@@ -1,36 +1,33 @@
 // src/application/middlewares/errorHandlerMiddleware.ts
 import {
-  APIGatewayProxyEvent,
+  APIGatewayProxyHandler,
   APIGatewayProxyResult,
-  Context,
 } from "aws-lambda";
 import { ResponseHandler } from "src/presentation/utils/responses";
 
-export class ErrorHandlerMiddleware {
-  constructor(
-    private readonly handler: (
-      event: APIGatewayProxyEvent,
-      context: Context
-    ) => Promise<APIGatewayProxyResult>
-  ) {}
-
-  public async process(
-    event: APIGatewayProxyEvent,
-    context: Context
-  ): Promise<APIGatewayProxyResult> {
+export const errorHandlerMiddleware = (
+  handler: APIGatewayProxyHandler
+): APIGatewayProxyHandler => {
+  return async (event, context, callback): Promise<APIGatewayProxyResult> => {
     try {
-      const result = await this.handler(event, context);
-      return result;
-    } catch (error) {
-      const responseHandler = new ResponseHandler();
+      // Execute the main handler function
+      const result = await handler(event, context, callback);
 
-      if (error instanceof Error) {
-        console.error("Error:", error.message);
-        return responseHandler.serverError(error.message);
+      if (
+        result &&
+        typeof result === "object" &&
+        "statusCode" in result &&
+        "body" in result
+      ) {
+        return result;
       } else {
-        console.error("Unknown error:", error);
-        return responseHandler.serverError("An unexpected error occurred");
+        throw new Error("Invalid result from the handler function");
       }
+    } catch (error) {
+      console.error("Unhandled error:", error);
+
+      const responseHandler = new ResponseHandler();
+      return responseHandler.serverError("An unexpected error occurred");
     }
-  }
-}
+  };
+};
