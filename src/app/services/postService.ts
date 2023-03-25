@@ -29,4 +29,8 @@ export default class PostService {
 
     return result;
   }
+
+  async getAll(): Promise<Post[]> {
+    return await this.postRepository.getAll();
+  }
 }

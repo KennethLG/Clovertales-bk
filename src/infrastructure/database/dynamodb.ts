@@ -37,4 +37,13 @@ export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap> impl
     const result = await this.documentClient.get(params).promise();
     return result.Item as T | undefined;
   }
+
+  async getAll(): Promise<T[]> {
+    const params: AWS.DynamoDB.DocumentClient.ScanInput = {
+      TableName: this.tableName,
+    }
+
+    const result = await this.documentClient.scan(params).promise();
+    return result.Items as T[];
+  }
 }

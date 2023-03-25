@@ -17,4 +17,9 @@ export default class PostRepositoryImpl implements PostRepository {
     const result = await this.dbClient.get(id);
     return result;
   }
+
+  async getAll() {
+    const result = await this.dbClient.getAll();
+    return result;
+  }
 }

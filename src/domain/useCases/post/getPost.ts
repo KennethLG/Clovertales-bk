@@ -5,8 +5,10 @@ import { CreatePostDto } from "src/presentation/dto/postDto";
 export default class GetPost {
   constructor(private postService: PostService) {}
 
-  async execute(id: string): Promise<Post> {
-    const post = await this.postService.get(id);
-    return post;
+  async execute(id?: string): Promise<Post | Post[]> {
+    if (id) {
+      return await this.postService.get(id);
+    }
+    return await this.postService.getAll();
   }
 }
