@@ -1,6 +1,6 @@
 import { Post } from "src/domain/entities/post";
 import PostRepository from "src/domain/repositories/postRepository";
-import { CreatePostDto } from "src/presentation/functions/post/createPostDto";
+import { CreatePostDto } from "src/presentation/dto/createPostDto";
 import { v4 as uuidv4} from "uuid";
 
 export default class PostService {
