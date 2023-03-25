@@ -1,4 +1,4 @@
-export interface Post {
+export class Post {
   id: string;
   title: string;
   description: string;
@@ -7,4 +7,9 @@ export interface Post {
   createdAt: string;
   updatedAt: string;
   available: boolean;
+
+  constructor() {
+    this.createdAt = new Date().toISOString();
+    this.updatedAt = new Date().toISOString();
+  }
 }
