@@ -65,12 +65,12 @@ functions:
       - httpApi:
           path: /post
           method: get
-  # deletePost:
-  #   handler: src/functions/deletePost.handler
-  #   events:
-  #     - httpApi:
-  #         path: /post
-  #         method: delete
+  deletePost:
+    handler: src/presentation/functions/post/deletePost.handler
+    events:
+      - httpApi:
+          path: /post
+          method: delete
   # updatePost:
   #   handler: src/functions/updatePost.handler
   #   events:
