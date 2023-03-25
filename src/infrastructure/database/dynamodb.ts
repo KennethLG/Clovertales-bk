@@ -25,4 +25,16 @@ export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap> impl
 
     return item;
   }
+
+  async get(id: string): Promise<T | undefined> {
+    const params: AWS.DynamoDB.DocumentClient.GetItemInput = {
+      TableName: this.tableName,
+      Key: {
+        id,
+      },
+    };
+
+    const result = await this.documentClient.get(params).promise();
+    return result.Item as T | undefined;
+  }
 }

@@ -1,6 +1,6 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from "aws-lambda";
 import { errorHandlerMiddleware } from "src/app/middleware/errorHandler";
-import { CreatePostDto } from "../../dto/createPostDto";
+import { CreatePostDto } from "../../dto/postDto";
 import { createPostUseCaseFactory, responseHandlerFactory } from "./postFactory";
 
 const handlerFunction: APIGatewayProxyHandler = async (

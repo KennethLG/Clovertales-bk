@@ -1,12 +1,12 @@
 import { Post } from "src/domain/entities/post";
 import PostRepository from "src/domain/repositories/postRepository";
-import { CreatePostDto } from "src/presentation/dto/createPostDto";
+import { CreatePostDto } from "src/presentation/dto/postDto";
 import { v4 as uuidv4} from "uuid";
 
 export default class PostService {
   constructor(private postRepository: PostRepository) {}
 
-  async createPost(post: CreatePostDto): Promise<Post> {
+  async create(post: CreatePostDto): Promise<Post> {
     const newPost = new Post();
     newPost.id = uuidv4();
     newPost.available = true;
@@ -15,7 +15,17 @@ export default class PostService {
     newPost.title = post.title;
     newPost.description = post.description;
 
-    const newUser = await this.postRepository.create(newPost);
-    return newUser;
+    const result = await this.postRepository.create(newPost);
+    return result;
+  }
+
+  async get(id: string): Promise<Post> {
+    const result = await this.postRepository.get(id);
+
+    if (!result) {
+      throw new Error("Post not found");
+    }
+
+    return result;
   }
 }
