@@ -35,54 +35,54 @@ provider:
     cors: true
 
 functions:
-  getMembers:
-    handler: src/functions/getMembers.handler
-    events:
-      - httpApi:
-          path: /members
-          method: get
-  getPlatforms:
-    handler: src/functions/getPlatforms.handler
-    events:
-      - httpApi:
-          path: /platforms
-          method: get
-  sendMail:
-    handler: src/functions/sendMail.handler
-    events:
-      - httpApi:
-          path: /sendMail
-          method: post
+  # getMembers:
+  #   handler: src/functions/getMembers.handler
+  #   events:
+  #     - httpApi:
+  #         path: /members
+  #         method: get
+  # getPlatforms:
+  #   handler: src/functions/getPlatforms.handler
+  #   events:
+  #     - httpApi:
+  #         path: /platforms
+  #         method: get
+  # sendMail:
+  #   handler: src/functions/sendMail.handler
+  #   events:
+  #     - httpApi:
+  #         path: /sendMail
+  #         method: post
   createPost:
-    handler: src/functions/createPost.handler
+    handler: src/presentation/functions/post/createPost.handler
     events:
       - httpApi:
           path: /post
           method: post
   getPost:
-    handler: src/functions/getPost.handler
+    handler: src/presentation/functions/post/getPost.handler
     events:
       - httpApi:
           path: /post
           method: get
-  deletePost:
-    handler: src/functions/deletePost.handler
-    events:
-      - httpApi:
-          path: /post
-          method: delete
-  updatePost:
-    handler: src/functions/updatePost.handler
-    events:
-      - httpApi:
-          path: /post
-          method: put
-  uploadGallery:
-    handler : src/functions/uploadGallery.handler
-    events:
-      - httpApi:
-          path: /gallery
-          method: post
+  # deletePost:
+  #   handler: src/functions/deletePost.handler
+  #   events:
+  #     - httpApi:
+  #         path: /post
+  #         method: delete
+  # updatePost:
+  #   handler: src/functions/updatePost.handler
+  #   events:
+  #     - httpApi:
+  #         path: /post
+  #         method: put
+  # uploadGallery:
+  #   handler : src/functions/uploadGallery.handler
+  #   events:
+  #     - httpApi:
+  #         path: /gallery
+  #         method: post
 resources:
   Resources:
     MembersTable:

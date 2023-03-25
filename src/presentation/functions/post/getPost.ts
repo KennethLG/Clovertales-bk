@@ -8,11 +8,11 @@ import {
 const handlerFunction: APIGatewayProxyHandler = async (
   event
 ): Promise<APIGatewayProxyResult> => {
-  if (!event.pathParameters?.id) {
-    return responseHandlerFactory().clientError("Please provide a id");
-  }
+  const id = event.queryStringParameters?.id
 
-  const id = event.pathParameters.id;
+  if (!id) {
+    return responseHandlerFactory().clientError("Please provide a ID");
+  }
 
   const getPost = getPostUseCaseFactory();
 

@@ -54,7 +54,7 @@ export class ResponseHandler {
     return this.build();
   }
 
-  private build(): APIGatewayProxyResult {
+  build(): APIGatewayProxyResult {
     return {
       statusCode: this.statusCode,
       headers: this.headers,
