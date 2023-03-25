@@ -7,11 +7,12 @@ export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap> impl
   private readonly documentClient: DocumentClient;
 
   constructor(
-    tableName: string,
-    options: DynamoDB.DocumentClient.DocumentClientOptions
+    tableName: string
   ) {
     this.tableName = tableName;
-    this.documentClient = new AWS.DynamoDB.DocumentClient(options);
+    this.documentClient = new AWS.DynamoDB.DocumentClient({
+      region: 'us-east-1'
+    });
   }
 
   async create(item: T): Promise<T> {
