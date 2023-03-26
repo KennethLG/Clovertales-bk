@@ -7,13 +7,13 @@ import { v4 as uuidv4 } from "uuid";
 export class GalleryService {
   constructor(private readonly galleryRepository: GalleryRepository) {}
 
-  async create(gallery: CreateGalleryDto) {
+  async create(gallery: Partial<Gallery>) {
     const newGallery = new Gallery();
     newGallery.id = uuidv4();
     newGallery.createdAt = new Date().toISOString();
     newGallery.updatedAt = new Date().toISOString();
-    newGallery.image = gallery.image;
-    newGallery.order = gallery.order;
+    newGallery.order = gallery.order || 0;
+    newGallery.extension = gallery.extension || "";
 
     return await this.galleryRepository.create(newGallery);
   }

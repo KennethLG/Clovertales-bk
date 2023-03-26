@@ -1,19 +1,18 @@
 import { GalleryService } from "src/app/services/galleryService";
+import { ImageUrlService } from "src/app/services/imageUrlService";
 import { S3Service } from "src/app/services/s3Service";
-import { Gallery } from "src/domain/entities/gallery";
-import { CreateGalleryDto } from "src/presentation/dto/galleryDto";
 
 export default class DeleteGallery {
   constructor(
-    private galleryService: GalleryService,
-    private s3Service: S3Service
+    private readonly galleryService: GalleryService,
+    private readonly s3Service: S3Service,
+    private readonly imageUrlService: ImageUrlService
   ) {}
 
   async execute(id: string): Promise<void> {
-
     const gallery = await this.galleryService.get(id);
 
-    const key = `resources/blog/${gallery.id}.${gallery.extension}`;
+    const key = this.imageUrlService.buildKey(id, gallery.extension);
 
     await this.s3Service.deleteItem(key);
 

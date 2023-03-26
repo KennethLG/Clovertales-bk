@@ -13,10 +13,10 @@ const handlerFunction: APIGatewayProxyHandler = async (
 
   const createGallery = createGalleryUseCaseFactory();
 
-  const newGallery = await createGallery.execute(createGalleryDto);
+  const gallery = await createGallery.execute(createGalleryDto);
 
   return new ResponseHandler().success({
-    newGallery
+    gallery
   });
 };
 

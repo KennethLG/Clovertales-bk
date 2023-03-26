@@ -1,25 +1,26 @@
 import { GalleryService } from "src/app/services/galleryService";
+import { ImageUrlService } from "src/app/services/imageUrlService";
 import { S3Service } from "src/app/services/s3Service";
 import { Gallery } from "src/domain/entities/gallery";
 import { CreateGalleryDto } from "src/presentation/dto/galleryDto";
-import { v4 as uuid } from "uuid";
 
 export default class CreateGallery {
   constructor(
-    private galleryService: GalleryService,
-    private s3Service: S3Service
+    private readonly galleryService: GalleryService,
+    private readonly s3Service: S3Service,
+    private readonly imageUrlService: ImageUrlService
   ) {}
 
-  async execute(input: CreateGalleryDto): Promise<Gallery> {
-    const imageExtension = this.getExtensionFromBase64(input.image);
-    const path = `resources/blog/${uuid()}.${imageExtension || 'png'}`;
-
-    const imageLocation = await this.s3Service.uploadItem(input.image, path);
-
-    return await this.galleryService.create({
-      image: imageLocation,
-      order: input.order,
+  async execute({ order, image }: CreateGalleryDto): Promise<Gallery> {
+    const extension = this.getExtensionFromBase64(image) || "png";
+    const gallery = await this.galleryService.create({
+      order,
+      extension,
     });
+    const path = this.imageUrlService.buildKey(gallery.id, extension);
+    await this.s3Service.uploadItem(image, path);
+
+    return gallery;
   }
 
   private getExtensionFromBase64(base64: string): string | null {

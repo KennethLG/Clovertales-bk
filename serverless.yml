@@ -89,6 +89,12 @@ functions:
       - httpApi:
           path: /gallery
           method: get
+  deleteGallery:
+    handler : src/presentation/functions/gallery/deleteGallery.handler
+    events:
+      - httpApi:
+          path: /gallery
+          method: delete
 resources:
   Resources:
     MembersTable:
