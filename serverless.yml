@@ -48,7 +48,7 @@ functions:
   #         path: /platforms
   #         method: get
   sendMail:
-    handler: src/presentation/functions/post/sendMail.handler
+    handler: src/presentation/functions/mail/sendMail.handler
     events:
       - httpApi:
           path: /sendMail
