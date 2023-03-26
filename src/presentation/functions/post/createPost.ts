@@ -10,10 +10,9 @@ import {
 const handlerFunction: APIGatewayProxyHandler = async (
   event
 ): Promise<APIGatewayProxyResult> => {
-  const createPostDto = await extractAndValidate(
-    CreatePostDto,
-    JSON.parse(event.body as string)
-  );
+  const body = JSON.parse(event.body as string)
+  console.log(body);
+  const createPostDto = await extractAndValidate(CreatePostDto, body);
 
   const createPost = createPostUseCaseFactory();
 

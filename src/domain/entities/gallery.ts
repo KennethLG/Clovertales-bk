@@ -1,16 +1,12 @@
-import { Entity } from "./entity";
-
-export class Gallery extends Entity {
+export class Gallery {
+  id: string;
   image: string;
   order: number;
+  createdAt: string;
+  updatedAt: string;
 
   constructor() {
-    super();
-  }
-
-  update(data: Partial<Gallery>): void {
-    super.update(data);
-    if (data.image !== undefined) this.image = data.image;
-    if (data.order !== undefined) this.order = data.order;
+    this.createdAt = new Date().toISOString();
+    this.updatedAt = new Date().toISOString();
   }
 }

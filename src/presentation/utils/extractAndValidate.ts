@@ -5,7 +5,11 @@ export async function extractAndValidate<T extends object>(
   dtoClass: new () => T,
   data: any
 ): Promise<T> {
-  const dto = plainToClass(dtoClass, data);
+  console.log(dtoClass, data);
+  const dto = plainToClass(dtoClass, data, {
+    excludeExtraneousValues: true
+  });
+  console.log(dto)
   await validateOrReject(dto);
   return dto;
 }

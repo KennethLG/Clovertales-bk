@@ -6,7 +6,9 @@ export class GalleryService {
   constructor(private readonly galleryRepository: GalleryRepository) {}
 
   async create(gallery: CreateGalleryDto) {
-    const newGallery = Gallery.fromData(gallery);
+    const newGallery = new Gallery();
+    newGallery.image = gallery.image;
+    newGallery.order = gallery.order;
 
     return await this.galleryRepository.create(newGallery);
   }

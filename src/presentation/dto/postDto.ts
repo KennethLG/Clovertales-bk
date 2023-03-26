@@ -1,35 +1,51 @@
-import { IsString } from "class-validator";
-import { IsNotEmpty } from "class-validator/types/decorator/decorators";
+import { Expose } from "class-transformer";
+import { IsString, IsNotEmpty } from "class-validator";
 
 export class CreatePostDto {
   @IsString()
   @IsNotEmpty()
-  title: string;
+  @Expose()
+  title: string = "default";
+  
   @IsString()
   @IsNotEmpty()
+  @Expose()
   description: string;
+  
   @IsString()
   @IsNotEmpty()
+  @Expose()
   content: string;
+  
   @IsString()
   @IsNotEmpty()
+  @Expose()
   imageUrl: string;
 }
 
 export class UpdatePostDto {
   @IsString()
   @IsNotEmpty()
+  @Expose()
   id: string;
+
   @IsString()
   @IsNotEmpty()
+  @Expose()
   title: string;
+
   @IsString()
   @IsNotEmpty()
+  @Expose()
   description: string;
+
   @IsString()
   @IsNotEmpty()
+  @Expose()
   content: string;
+
   @IsString()
   @IsNotEmpty()
+  @Expose()
   imageUrl: string;
 }
