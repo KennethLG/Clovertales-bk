@@ -1,9 +1,11 @@
 import { errorHandlerMiddleware } from "src/app/middleware/errorHandler";
 import { ResponseHandler } from "src/presentation/utils/responses";
-// import { getMemberUseCaseFactory } from "./memberFactory";
+import { getPlatformsUseCaseFactory } from "./platformFactory";
 
 const handlerFunction = async () => {
-  return new ResponseHandler().success(null);
+  const getPlatforms = getPlatformsUseCaseFactory();
+  const platforms = await getPlatforms.getAll();
+  return new ResponseHandler().success(platforms);
 };
 
 export const handler = errorHandlerMiddleware(handlerFunction);
