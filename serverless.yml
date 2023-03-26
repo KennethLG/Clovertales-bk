@@ -23,6 +23,7 @@ provider:
         - Fn::GetAtt: [MembersTable, Arn]
         - Fn::GetAtt: [PlatformsTable, Arn]
         - Fn::GetAtt: [PostsTable, Arn]
+        - Fn::GetAtt: [GalleryTable, Arn]
   environment:
     AWS_DYNAMODB_ARN: ${env:AWS_DYNAMODB_ARN}
     AWS_BUCKET_NAME: ${env:AWS_BUCKET_NAME}
