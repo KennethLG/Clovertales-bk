@@ -77,12 +77,12 @@ functions:
       - httpApi:
           path: /post
           method: put
-  # uploadGallery:
-  #   handler : src/functions/uploadGallery.handler
-  #   events:
-  #     - httpApi:
-  #         path: /gallery
-  #         method: post
+  uploadGallery:
+    handler : src/presentation/functions/gallery/uploadGallery.handler
+    events:
+      - httpApi:
+          path: /gallery
+          method: post
 resources:
   Resources:
     MembersTable:
@@ -119,6 +119,7 @@ resources:
           - AttributeName: id
             KeyType: HASH
     GalleryTable:
+      Type: AWS::DynamoDB::Table
       Properties:
         TableName: GalleryTable
         BillingMode: PAY_PER_REQUEST
