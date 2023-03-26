@@ -8,10 +8,4 @@ export class Post {
   createdAt: string;
   updatedAt: string;
   available: boolean;
-
-  constructor() {
-    this.createdAt = new Date().toISOString();
-    this.updatedAt = new Date().toISOString();
-    this.available = true;
-  }
 }

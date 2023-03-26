@@ -2,12 +2,16 @@ import { Post } from "src/domain/entities/post";
 import PostRepository from "src/domain/repositories/postRepository";
 import { CreatePostDto, UpdatePostDto } from "src/presentation/dto/postDto";
 import { NotFoundError, BadRequestError } from "src/presentation/utils/customError";
+import { v4 as uuidv4 } from "uuid";
 
 export default class PostService {
   constructor(private postRepository: PostRepository) {}
 
   async create(post: CreatePostDto): Promise<Post> {
     const newPost = new Post();
+    newPost.createdAt = new Date().toISOString();
+    newPost.updatedAt = new Date().toISOString();
+    newPost.id = uuidv4();
     newPost.content = post.content;
     newPost.description = post.description;
     newPost.title = post.title;
@@ -36,17 +40,14 @@ export default class PostService {
 
   async update(post: UpdatePostDto): Promise<Post> {
 
-    // console.log(post)
-    // const newPost = Post.fromData(post);
-    // console.log(newPost)
-    // newPost.update({
-    //   ...post
-    // })
-    // console.log(newPost)
+    const newPost = new Post();
+    newPost.updatedAt = new Date().toISOString();
+    newPost.content = post.content;
+    newPost.title = post.title;
+    newPost.description = post.description;
+    newPost.imageUrl = post.imageUrl;
 
-    const result = await this.postRepository.update(post.id, {
-      
-    });
+    const result = await this.postRepository.update(post.id, newPost);
 
     if (!result) {
       throw new BadRequestError("An error occurred while updating");
