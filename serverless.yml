@@ -71,12 +71,12 @@ functions:
       - httpApi:
           path: /post
           method: delete
-  # updatePost:
-  #   handler: src/functions/updatePost.handler
-  #   events:
-  #     - httpApi:
-  #         path: /post
-  #         method: put
+  updatePost:
+    handler: src/presentation/functions/post/updatePost.handler
+    events:
+      - httpApi:
+          path: /post
+          method: put
   # uploadGallery:
   #   handler : src/functions/uploadGallery.handler
   #   events:

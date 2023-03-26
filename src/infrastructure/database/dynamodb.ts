@@ -2,16 +2,16 @@ import AWS from "aws-sdk";
 import DynamoDB, { DocumentClient } from "aws-sdk/clients/dynamodb";
 import DbClient from "src/domain/repositories/dbClient";
 
-export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap> implements DbClient<T> {
+export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap>
+  implements DbClient<T>
+{
   private readonly tableName: string;
   private readonly documentClient: DocumentClient;
 
-  constructor(
-    tableName: string
-  ) {
+  constructor(tableName: string) {
     this.tableName = tableName;
     this.documentClient = new AWS.DynamoDB.DocumentClient({
-      region: 'us-east-1'
+      region: "us-east-1",
     });
   }
 
@@ -52,11 +52,36 @@ export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap> impl
   async getAll(): Promise<T[]> {
     const params: AWS.DynamoDB.DocumentClient.ScanInput = {
       TableName: this.tableName,
-    }
+    };
 
     const result = await this.documentClient.scan(params).promise();
     return result.Items as T[];
   }
 
-  
+  async update(id: string, updateData: Partial<T>): Promise<T | undefined> {
+    const updateExpression = Object.keys(updateData)
+      .map((key, index) => `${key} = :value${index}`)
+      .join(", ");
+
+    const expressionAttributeValues = Object.keys(updateData).reduce(
+      (accumulator, key, index) => {
+        accumulator[`:value${index}`] = updateData[key];
+        return accumulator;
+      },
+      {} as Record<string, any>
+    );
+
+    const params: AWS.DynamoDB.DocumentClient.UpdateItemInput = {
+      TableName: this.tableName,
+      Key: {
+        id,
+      },
+      UpdateExpression: `SET ${updateExpression}`,
+      ExpressionAttributeValues: expressionAttributeValues,
+      ReturnValues: "ALL_NEW",
+    };
+
+    const result = await this.documentClient.update(params).promise();
+    return result.Attributes as T | undefined;
+  }
 }

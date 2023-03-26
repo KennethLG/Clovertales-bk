@@ -25,4 +25,11 @@ export default class PostRepositoryImpl implements PostRepository {
     const result = await this.dbClient.getAll();
     return result;
   }
+
+  async update(
+    id: string,
+    updateData: Partial<Post>
+  ): Promise<Post | undefined> {
+    return this.dbClient.update(id, updateData);
+  }
 }

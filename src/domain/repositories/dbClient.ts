@@ -4,4 +4,5 @@ export default interface DbClient<T> {
   get(id: string): Promise<T | undefined>;
   getAll(): Promise<T[]>;
   delete(id: string): Promise<void>;
+  update(id: string, updateData: Partial<T>): Promise<T | undefined>;
 }
