@@ -1,5 +1,6 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from "aws-lambda";
 import { errorHandlerMiddleware } from "src/app/middleware/errorHandler";
+import { formatGallery } from "src/presentation/utils/formatGallery";
 import { ResponseHandler } from "src/presentation/utils/responses";
 import { getGalleryUseCaseFactory } from "./galleryFactory";
 
@@ -9,9 +10,9 @@ const handlerFunction: APIGatewayProxyHandler = async (): Promise<APIGatewayProx
 
   const gallery = await getGallery.execute();
 
-  return new ResponseHandler().success({
-    gallery,
-  });
+  const formattedGallery = formatGallery(gallery, "/resources/gallery");
+
+  return new ResponseHandler().success(formattedGallery);
 };
 
 export const handler = errorHandlerMiddleware(handlerFunction);

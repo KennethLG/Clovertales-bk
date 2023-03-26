@@ -14,7 +14,7 @@ export const galleryServicesFactory = () => {
   const galleryRepository = new GalleryRepositoryImpl(dbClient);
   const galleryService = new GalleryService(galleryRepository);
   const s3Service = new S3Service(config.aws.bucket);
-  const imageUrlService = new ImageUrlService("/resources/gallery/");
+  const imageUrlService = new ImageUrlService("resources/gallery");
   return {
     galleryService,
     imageUrlService,
