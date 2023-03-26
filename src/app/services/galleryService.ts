@@ -16,4 +16,8 @@ export class GalleryService {
 
     return await this.galleryRepository.create(newGallery);
   }
+
+  async getAll() {
+    return await this.galleryRepository.getAll();
+  }
 }

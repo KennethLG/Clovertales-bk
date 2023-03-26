@@ -11,4 +11,8 @@ export default class GalleryRepositoryImpl implements GalleryRepository {
   async create(gallery: Gallery): Promise<Gallery> {
     return await this.dbClient.create(gallery);
   }
+
+  async getAll(): Promise<Gallery[]> {
+    return await this.dbClient.getAll();
+  }
 }
