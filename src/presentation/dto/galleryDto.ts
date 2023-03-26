@@ -1,3 +1,10 @@
-import { Gallery } from "src/domain/entities/gallery";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
-export type CreateGalleryDto = Pick<Gallery, "image" | "order">;
+export class CreateGalleryDto {
+  @IsNotEmpty()
+  @IsString()
+  image: string;
+  @IsNotEmpty()
+  @IsNumber()
+  order: number;
+}
