@@ -41,12 +41,12 @@ functions:
       - httpApi:
           path: /members
           method: get
-  # getPlatforms:
-  #   handler: src/functions/getPlatforms.handler
-  #   events:
-  #     - httpApi:
-  #         path: /platforms
-  #         method: get
+  getPlatforms:
+    handler: src/presentation/functions/platform/getPlatforms.handler
+    events:
+      - httpApi:
+          path: /platforms
+          method: get
   sendMail:
     handler: src/presentation/functions/mail/sendMail.handler
     events:
