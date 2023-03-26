@@ -77,8 +77,8 @@ functions:
       - httpApi:
           path: /post
           method: put
-  uploadGallery:
-    handler : src/presentation/functions/gallery/uploadGallery.handler
+  createGallery:
+    handler : src/presentation/functions/gallery/createGallery.handler
     events:
       - httpApi:
           path: /gallery
