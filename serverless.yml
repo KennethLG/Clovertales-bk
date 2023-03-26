@@ -35,12 +35,12 @@ provider:
     cors: true
 
 functions:
-  # getMembers:
-  #   handler: src/functions/getMembers.handler
-  #   events:
-  #     - httpApi:
-  #         path: /members
-  #         method: get
+  getMembers:
+    handler: src/presentation/functions/member/getMembers.handler
+    events:
+      - httpApi:
+          path: /members
+          method: get
   # getPlatforms:
   #   handler: src/functions/getPlatforms.handler
   #   events:
