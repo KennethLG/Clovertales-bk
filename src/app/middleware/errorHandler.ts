@@ -1,4 +1,5 @@
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from "aws-lambda";
+import { ValidationError } from "class-validator";
 import { CustomError } from "src/presentation/utils/customError";
 import { ResponseHandler } from "src/presentation/utils/responses";
 
@@ -22,8 +23,16 @@ export const errorHandlerMiddleware =
     } catch (error) {
       const responseHandler = new ResponseHandler();
 
+      if (
+        Array.isArray(error) &&
+        error.length > 0 &&
+        error[0] instanceof ValidationError
+      ) {
+        const errorMessage = error.map((e) => e.toString()).join("; ");
+        return responseHandler.clientError(errorMessage);
+      }
+
       if (error instanceof CustomError) {
-        // Handle custom errors
         return responseHandler
           .setStatusCode(error.statusCode)
           .setBody({
