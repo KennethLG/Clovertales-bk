@@ -3,6 +3,7 @@ import { S3Service } from "src/app/services/s3Service";
 import config from "src/config";
 import { Gallery } from "src/domain/entities/gallery";
 import CreateGallery from "src/domain/useCases/gallery/createGallery";
+import DeleteGallery from "src/domain/useCases/gallery/deleteGallery";
 import GetGallery from "src/domain/useCases/gallery/getGallery";
 import { DynamoDbClient } from "src/infrastructure/database/dynamodb";
 import GalleryRepositoryImpl from "src/infrastructure/repositories/galleryRepository";
@@ -29,4 +30,10 @@ export const getGalleryUseCaseFactory = () => {
   const galleryService = galleryServiceUseCaseFactory();
   const getGallery = new GetGallery(galleryService);
   return getGallery;
+}
+export const deleteGalleryUseCaseFactory = () => {
+  const s3Service = s3ServiceFactory();
+  const galleryService = galleryServiceUseCaseFactory();
+  const deleteGallery = new DeleteGallery(galleryService, s3Service);
+  return deleteGallery;
 }

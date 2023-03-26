@@ -12,7 +12,16 @@ export default class GalleryRepositoryImpl implements GalleryRepository {
     return await this.dbClient.create(gallery);
   }
 
+  async get(id: string): Promise<Gallery | undefined> {
+    return await this.dbClient.get(id);
+  }
+
   async getAll(): Promise<Gallery[]> {
     return await this.dbClient.getAll();
   }
+
+  async delete(id: string): Promise<void> {
+    await this.dbClient.delete(id);
+  }
+
 }
