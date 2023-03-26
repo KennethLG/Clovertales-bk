@@ -47,12 +47,12 @@ functions:
   #     - httpApi:
   #         path: /platforms
   #         method: get
-  # sendMail:
-  #   handler: src/functions/sendMail.handler
-  #   events:
-  #     - httpApi:
-  #         path: /sendMail
-  #         method: post
+  sendMail:
+    handler: src/presentation/functions/post/sendMail.handler
+    events:
+      - httpApi:
+          path: /sendMail
+          method: post
   createPost:
     handler: src/presentation/functions/post/createPost.handler
     events:
