@@ -1,7 +1,7 @@
 import AWS from "aws-sdk";
 import { v4 as uuid } from "uuid";
 
-export class S3ServiceImpl {
+export class S3Service {
   private s3: AWS.S3;
   private bucketName: string;
 
