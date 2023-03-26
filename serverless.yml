@@ -83,6 +83,12 @@ functions:
       - httpApi:
           path: /gallery
           method: post
+  getGallery:
+    handler : src/presentation/functions/gallery/getGallery.handler
+    events:
+      - httpApi:
+          path: /gallery
+          method: get
 resources:
   Resources:
     MembersTable:
