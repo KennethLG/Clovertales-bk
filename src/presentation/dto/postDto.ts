@@ -1,12 +1,35 @@
-import { Post } from "src/domain/entities/post";
+import { IsString } from "class-validator";
+import { IsNotEmpty } from "class-validator/types/decorator/decorators";
 
-export type CreatePostDto = Pick<
-  Post,
-  "title" | "description" | "content" | "imageUrl"
->;
+export class CreatePostDto {
+  @IsString()
+  @IsNotEmpty()
+  title: string;
+  @IsString()
+  @IsNotEmpty()
+  description: string;
+  @IsString()
+  @IsNotEmpty()
+  content: string;
+  @IsString()
+  @IsNotEmpty()
+  imageUrl: string;
+}
 
-
-export type UpdatePostDto = Pick<
-  Post,
-  "id" | "title" | "description" | "content" | "imageUrl"
->;
+export class UpdatePostDto {
+  @IsString()
+  @IsNotEmpty()
+  id: string;
+  @IsString()
+  @IsNotEmpty()
+  title: string;
+  @IsString()
+  @IsNotEmpty()
+  description: string;
+  @IsString()
+  @IsNotEmpty()
+  content: string;
+  @IsString()
+  @IsNotEmpty()
+  imageUrl: string;
+}

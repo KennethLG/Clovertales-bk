@@ -16,6 +16,7 @@ export class Entity {
     entity.id = data.id || uuidv4();
     entity.createdAt = data.createdAt || new Date().toISOString();
     entity.updatedAt = data.updatedAt || new Date().toISOString();
+    Object.assign(entity, data);
     return entity;
   }
 
