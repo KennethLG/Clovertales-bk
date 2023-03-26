@@ -1,5 +1,5 @@
 import nodemailer, { SentMessageInfo, Transporter } from "nodemailer";
-import config from "src";
+import config from "src/config";
 import { SendMailDto } from "src/presentation/dto/sendMailDto";
 
 export class MailService {

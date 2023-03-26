@@ -1,6 +1,6 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import AWS from "aws-sdk";
-import config from "src";
+import config from "src/config";
 import { v4 as uuid } from "uuid";
 
 const s3 = new AWS.S3();
