@@ -8,7 +8,7 @@ export default class CreateGallery {
 
   async execute(input: CreateGalleryDto): Promise<Gallery> {
 
-    const imageLocation = await this.s3Service.uploadImage(input.image);
+    const imageLocation = await this.s3Service.uploadItem(input.image);
 
     return await this.galleryService.create({
       image: imageLocation,

@@ -1,4 +1,5 @@
 import AWS from "aws-sdk";
+import config from "src/config";
 import { v4 as uuid } from "uuid";
 
 export class S3Service {
@@ -10,22 +11,30 @@ export class S3Service {
     this.bucketName = bucketName;
   }
 
-  async uploadImage(base64Image: string): Promise<string> {
-    const buffer = Buffer.from(
-      base64Image.replace(/^data:image\/\w+;base64,/, ""),
-      "base64"
-    );
-    const key = `resources/blog/${uuid()}.png`;
+  async uploadItem(base64Item: string): Promise<string> {
+    const buffer = this.createItemBuffer(base64Item);
+    const data = await this.uploadToS3(buffer);
+    return this.getCdnUrl(data.Location);
+  }
 
+  private async uploadToS3(Body: Buffer) {
     const params = {
       Bucket: this.bucketName,
-      Key: key,
-      Body: buffer,
+      Key: `resources/blog/${uuid()}.png`,
+      Body,
       ContentType: "image/png",
     };
 
-    const data = await this.s3.upload(params).promise();
+    return await this.s3.upload(params).promise();
+  }
 
-    return data.Location;
+  private getCdnUrl(location: string) {
+    const s3Url = `https://${this.bucketName}.s3.amazonaws.com`;
+    const cdnUrl = config.aws.cdn;
+    return location.replace(s3Url, cdnUrl);
+  }
+
+  private createItemBuffer(base64Item: string) {
+    return Buffer.from(base64Item.replace(/^data:image\/\w+;base64,/, ""), "base64");
   }
 }
