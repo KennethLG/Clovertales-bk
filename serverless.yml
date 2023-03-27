@@ -27,6 +27,7 @@ provider:
   environment:
     AWS_DYNAMODB_ARN: ${env:AWS_DYNAMODB_ARN}
     AWS_BUCKET_NAME: ${env:AWS_BUCKET_NAME}
+    AWS_CDN: ${env:AWS_CDN}
     PORT: ${env:PORT}
     MAILER_HOST: ${env:MAILER_HOST}
     MAILER_PORT: ${env:MAILER_PORT}
