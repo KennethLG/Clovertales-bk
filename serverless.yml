@@ -24,10 +24,20 @@ provider:
         - Fn::GetAtt: [PlatformsTable, Arn]
         - Fn::GetAtt: [PostsTable, Arn]
         - Fn::GetAtt: [GalleryTable, Arn]
+    # IAM User
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - execute-api:Invoke
+      Resource: "arn:aws:execute-api:${aws:region}:${env:AWS_ACCOUNT_ID}:${env:AWS_API_GATEWAY_ID}/*"
+
   environment:
-    AWS_DYNAMODB_ARN: ${env:AWS_DYNAMODB_ARN}
     AWS_BUCKET_NAME: ${env:AWS_BUCKET_NAME}
     AWS_CDN: ${env:AWS_CDN}
+    AWS_ACCOUNT_ID: ${env:AWS_ACCOUNT_ID}
     PORT: ${env:PORT}
     MAILER_HOST: ${env:MAILER_HOST}
     MAILER_PORT: ${env:MAILER_PORT}
@@ -61,6 +71,8 @@ functions:
       - httpApi:
           path: /post
           method: post
+          auth:
+            authorizer: aws_iam
   getPost:
     handler: src/presentation/functions/post/getPost.handler
     events:
@@ -73,30 +85,38 @@ functions:
       - httpApi:
           path: /post
           method: delete
+          auth:
+            authorizer: aws_iam
   updatePost:
     handler: src/presentation/functions/post/updatePost.handler
     events:
       - httpApi:
           path: /post
           method: put
+          auth:
+            authorizer: aws_iam
   createGallery:
-    handler : src/presentation/functions/gallery/createGallery.handler
+    handler: src/presentation/functions/gallery/createGallery.handler
     events:
       - httpApi:
           path: /gallery
           method: post
+          auth:
+            authorizer: aws_iam
   getGallery:
-    handler : src/presentation/functions/gallery/getGallery.handler
+    handler: src/presentation/functions/gallery/getGallery.handler
     events:
       - httpApi:
           path: /gallery
           method: get
   deleteGallery:
-    handler : src/presentation/functions/gallery/deleteGallery.handler
+    handler: src/presentation/functions/gallery/deleteGallery.handler
     events:
       - httpApi:
           path: /gallery
           method: delete
+          auth:
+            authorizer: aws_iam
 resources:
   Resources:
     MembersTable:
