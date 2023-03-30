@@ -1,11 +1,11 @@
-import { APIGatewayProxyHandler, APIGatewayProxyResult } from "aws-lambda";
+import { APIGatewayProxyHandlerV2, APIGatewayProxyResultV2 } from "aws-lambda";
 import { ValidationError } from "class-validator";
 import { CustomError } from "src/presentation/utils/customError";
 import { ResponseHandler } from "src/presentation/utils/responses";
 
 export const errorHandlerMiddleware =
-  (handler: APIGatewayProxyHandler): APIGatewayProxyHandler =>
-  async (event, context, callback): Promise<APIGatewayProxyResult> => {
+  (handler: APIGatewayProxyHandlerV2): APIGatewayProxyHandlerV2 =>
+  async (event, context, callback): Promise<APIGatewayProxyResultV2> => {
     try {
       // Execute the main handler function
       const result = await handler(event, context, callback);

@@ -1,4 +1,4 @@
-import { APIGatewayProxyResult } from "aws-lambda";
+import { APIGatewayProxyResultV2 } from "aws-lambda";
 export class ResponseHandler {
   private statusCode: number;
   private headers: { [key: string]: string | boolean };
@@ -14,47 +14,47 @@ export class ResponseHandler {
     this.body = "";
   }
 
-  setStatusCode(statusCode: number): ResponseHandler {
+  setStatusCode(statusCode: number) {
     this.statusCode = statusCode;
     return this;
   }
 
-  setHeaders(headers: { [key: string]: string }): ResponseHandler {
+  setHeaders(headers: { [key: string]: string }) {
     this.headers = { ...this.headers, ...headers };
     return this;
   }
 
-  setBody(data: any): ResponseHandler {
+  setBody(data: any) {
     this.body = JSON.stringify(data);
     return this;
   }
 
-  success(data: any): APIGatewayProxyResult {
+  success(data: any) {
     this.setStatusCode(200).setBody(data);
     return this.build();
   }
 
-  created(data: any): APIGatewayProxyResult {
+  created(data: any) {
     this.setStatusCode(201).setBody(data);
     return this.build();
   }
 
-  clientError(errorMessage: string): APIGatewayProxyResult {
+  clientError(errorMessage: string) {
     this.setStatusCode(400).setBody({ error: errorMessage });
     return this.build();
   }
 
-  notFound(errorMessage: string): APIGatewayProxyResult {
+  notFound(errorMessage: string) {
     this.setStatusCode(404).setBody({ error: errorMessage });
     return this.build();
   }
 
-  serverError(errorMessage: string): APIGatewayProxyResult {
+  serverError(errorMessage: string) {
     this.setStatusCode(500).setBody({ error: errorMessage });
     return this.build();
   }
 
-  build(): APIGatewayProxyResult {
+  build(): APIGatewayProxyResultV2 {
     return {
       statusCode: this.statusCode,
       headers: this.headers,

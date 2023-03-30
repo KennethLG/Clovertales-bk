@@ -1,12 +1,12 @@
-import { APIGatewayProxyHandler, APIGatewayProxyResult } from "aws-lambda";
+import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { errorHandlerMiddleware } from "src/app/middleware/errorHandler";
 import { ResponseHandler } from "src/presentation/utils/responses";
 import { SendMailDto } from "../../dto/sendMailDto";
 import { sendMailUseCaseFactory } from "./mailFactory";
 
-const handlerFunction: APIGatewayProxyHandler = async (
+const handlerFunction: APIGatewayProxyHandlerV2 = async (
   event
-): Promise<APIGatewayProxyResult> => {
+) => {
   const body = JSON.parse(event.body as string) as SendMailDto;
   const sendMail = sendMailUseCaseFactory();
 

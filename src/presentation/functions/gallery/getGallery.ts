@@ -1,10 +1,10 @@
-import { APIGatewayProxyHandler, APIGatewayProxyResult } from "aws-lambda";
+import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { errorHandlerMiddleware } from "src/app/middleware/errorHandler";
 import { formatGallery } from "src/presentation/utils/formatGallery";
 import { ResponseHandler } from "src/presentation/utils/responses";
 import { getGalleryUseCaseFactory } from "./galleryFactory";
 
-const handlerFunction: APIGatewayProxyHandler = async (): Promise<APIGatewayProxyResult> => {
+const handlerFunction: APIGatewayProxyHandlerV2 = async () => {
 
   const getGallery = getGalleryUseCaseFactory();
 
