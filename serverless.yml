@@ -88,7 +88,8 @@ functions:
           path: /post
           method: post
           authorizer:
-            name: customAuthorizer
+            name: authorizerFunc
+            type: request
   deletePost:
     handler: src/presentation/functions/post/deletePost.handler
     events:
@@ -96,7 +97,8 @@ functions:
           path: /post
           method: delete
           authorizer:
-            name: customAuthorizer
+            name: authorizerFunc
+            type: request
   updatePost:
     handler: src/presentation/functions/post/updatePost.handler
     events:
@@ -104,7 +106,8 @@ functions:
           path: /post
           method: put
           authorizer:
-            name: customAuthorizer
+            name: authorizerFunc
+            type: request
   createGallery:
     handler: src/presentation/functions/gallery/createGallery.handler
     events:
@@ -112,7 +115,8 @@ functions:
           path: /gallery
           method: post
           authorizer:
-            name: customAuthorizer
+            name: authorizerFunc
+            type: request
   deleteGallery:
     handler: src/presentation/functions/gallery/deleteGallery.handler
     events:
@@ -120,7 +124,8 @@ functions:
           path: /gallery
           method: delete
           authorizer:
-            name: customAuthorizer
+            name: authorizerFunc
+            type: request
   authorizerFunc:
     handler: src/presentation/functions/auth/customAuthorizer.handler
 resources:
