@@ -5,7 +5,7 @@ import { BadRequestError } from "src/presentation/utils/customError";
 export default class Login {
   constructor(private readonly authService: AuthService) {}
 
-  async execute(password: string, ip: string) {
+  execute(password: string, ip: string) {
     const { jwt, pass } = config;
 
     this.validatePassword(password, pass);

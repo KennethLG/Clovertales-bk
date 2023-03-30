@@ -5,11 +5,7 @@ import { extractAndValidate } from "src/presentation/utils/extractAndValidate";
 import { ResponseHandler } from "src/presentation/utils/responses";
 import { loginUseCaseFactory } from "./authFactory";
 
-const handlerFunction: APIGatewayProxyHandlerV2 = async (
-  event
-) => {
-  console.log(event);
-
+const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   const body = JSON.parse(event.body as string);
   const ip = event.requestContext.http.sourceIp;
   const loginDto = await extractAndValidate(LoginDto, body);

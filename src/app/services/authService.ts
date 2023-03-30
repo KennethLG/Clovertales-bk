@@ -10,7 +10,7 @@ export class AuthService {
     return jwt.sign(payload, secret, { expiresIn: "1h" });
   }
 
-  async comparePasswords(password: string, storedPassword: string) {
+  comparePasswords(password: string, storedPassword: string) {
     return password === storedPassword;
   }
 }
