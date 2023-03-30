@@ -4,7 +4,7 @@ export default class Auth {
   constructor(private readonly authService: AuthService) {}
 
   execute(token: string, methodArn: string) {
-    const decoded = this.authService.validate(token);
+    const decoded = this.authService.validateToken(token);
     const policyDocument = this.generatePolicyDocument('Allow', methodArn);
 
     return {
