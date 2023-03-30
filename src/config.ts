@@ -9,5 +9,6 @@ export default {
     bucket: process.env.AWS_BUCKET_NAME as string,
     cdn: process.env.AWS_CDN as string
   },
-  jwt: process.env.SECRET_KEY as string
+  jwt: process.env.SECRET_KEY as string,
+  pass: process.env.SECRET_PASS as string
 };
