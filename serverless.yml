@@ -36,6 +36,7 @@ provider:
     MAILER_USER: ${env:MAILER_USER}
     MAILER_PASS: ${env:MAILER_PASS}
     SECRET_KEY: ${env:SECRET_KEY}
+    SECRET_PASS: ${env:SECRET_PASS}
   httpApi:
     cors: true
     authorizers:
