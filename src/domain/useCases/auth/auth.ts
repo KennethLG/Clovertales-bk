@@ -1,8 +1,9 @@
 import { AuthService } from "src/app/services/authService";
+import config from "src/config";
 
 export default class Auth {
   constructor(private readonly authService: AuthService) {}
-
+  
   execute(token: string, methodArn: string) {
     const decoded = this.authService.validateToken(token);
     const policyDocument = this.generatePolicyDocument('Allow', methodArn);

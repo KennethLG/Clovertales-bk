@@ -45,6 +45,12 @@ provider:
         functionName: authorizerFunc
 
 functions:
+  login:
+    handler: src/presentation/functions/auth/login.handler
+    events:
+      - httpApi:
+          path: /login
+          method: post
   getMembers:
     handler: src/presentation/functions/member/getMembers.handler
     events:
