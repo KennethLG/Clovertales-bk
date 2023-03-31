@@ -3,6 +3,7 @@ import { ImageUrlService } from "src/app/services/imageUrlService";
 import { S3Service } from "src/app/services/s3Service";
 import { Gallery } from "src/domain/entities/gallery";
 import { CreateGalleryDto } from "src/presentation/dto/galleryDto";
+import { v4 as uuidv4 } from "uuid";
 
 export default class CreateGallery {
   constructor(
@@ -13,10 +14,16 @@ export default class CreateGallery {
 
   async execute({ order, image }: CreateGalleryDto): Promise<Gallery> {
     const extension = this.getExtensionFromBase64(image) || "png";
-    const gallery = await this.galleryService.create({
-      order,
-      extension,
-    });
+
+    const newGallery = new Gallery();
+    newGallery.id = uuidv4();
+    newGallery.createdAt = new Date().toISOString();
+    newGallery.updatedAt = new Date().toISOString();
+    newGallery.order = order || 0;
+    newGallery.extension = extension || "";
+
+    const gallery = await this.galleryService.create(newGallery);
+
     const path = this.imageUrlService.buildKey(gallery.id, extension);
     await this.s3Service.uploadItem(image, path);
 
