@@ -6,11 +6,8 @@ export const handler: APIGatewayRequestSimpleAuthorizerHandlerV2 = async (
 ) => {
   try {
     const token = event.headers?.authorization;
-    console.log("token", token);
   
-    if (!token) {
-      console.log("no token");
-  
+    if (!token) {  
       return {
         isAuthorized: false,
       };
@@ -21,10 +18,7 @@ export const handler: APIGatewayRequestSimpleAuthorizerHandlerV2 = async (
   
     const response = await auth.execute(token, methodArn);
   
-    console.log("response", response);
-  
     if (!response.decoded || typeof response.decoded === "string") {
-      console.log("no decoded or string");
       return {
         isAuthorized: false,
       };
@@ -32,14 +26,11 @@ export const handler: APIGatewayRequestSimpleAuthorizerHandlerV2 = async (
   
     const principalId = response.decoded.ip;
     if (!principalId) {
-      console.log("no principal");
-      
       return {
         isAuthorized: false,
       };
     }
   
-    console.log("correct", principalId)
   
     return {
       isAuthorized: true,
@@ -48,7 +39,6 @@ export const handler: APIGatewayRequestSimpleAuthorizerHandlerV2 = async (
       },
     };
   } catch (error) {
-    console.error("Unexpected error: ", error);
     return {
       isAuthorized: false
     }
