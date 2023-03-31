@@ -10,6 +10,9 @@ provider:
   name: aws
   runtime: nodejs14.x
   region: "us-east-1"
+  logs:
+    httpApi:
+      format: 'requestId: $context.requestId, ip: $context.identity.sourceIp, caller: $context.identity.caller, user: $context.identity.user, requestTime: $context.requestTime, status: $context.status, protocol: $context.protocol, method: $context.httpMethod, resourcePath: $context.resourcePath, responseLength: $context.responseLength'
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -88,8 +91,7 @@ functions:
           path: /post
           method: post
           authorizer:
-            name: authorizerFunc
-            type: request
+            name: customAuthorizer
   deletePost:
     handler: src/presentation/functions/post/deletePost.handler
     events:
@@ -97,8 +99,7 @@ functions:
           path: /post
           method: delete
           authorizer:
-            name: authorizerFunc
-            type: request
+            name: customAuthorizer
   updatePost:
     handler: src/presentation/functions/post/updatePost.handler
     events:
@@ -106,8 +107,7 @@ functions:
           path: /post
           method: put
           authorizer:
-            name: authorizerFunc
-            type: request
+            name: customAuthorizer
   createGallery:
     handler: src/presentation/functions/gallery/createGallery.handler
     events:
@@ -115,8 +115,7 @@ functions:
           path: /gallery
           method: post
           authorizer:
-            name: authorizerFunc
-            type: request
+            name: customAuthorizer
   deleteGallery:
     handler: src/presentation/functions/gallery/deleteGallery.handler
     events:
@@ -124,8 +123,7 @@ functions:
           path: /gallery
           method: delete
           authorizer:
-            name: authorizerFunc
-            type: request
+            name: customAuthorizer
   authorizerFunc:
     handler: src/presentation/functions/auth/customAuthorizer.handler
 resources:

@@ -18,10 +18,13 @@ export const errorHandlerMiddleware =
       ) {
         return result;
       } else {
+        console.error("Invalid, result ", result);
         throw new Error("Invalid result from the handler function");
       }
     } catch (error) {
       const responseHandler = new ResponseHandler();
+      
+      console.error("Unexpected error: ", error);
 
       if (
         Array.isArray(error) &&
@@ -40,8 +43,6 @@ export const errorHandlerMiddleware =
           })
           .build();
       }
-
-      console.error("Unexpected error: ", error);
 
       return responseHandler
         .setStatusCode(500)
