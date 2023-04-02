@@ -125,6 +125,12 @@ functions:
           method: delete
           authorizer:
             name: customAuthorizer
+  createUser:
+    handler: src/presentation/functions/user/createUser.handler
+    events:
+      - httpApi:
+          path: /user
+          method: post
   authorizerFunc:
     handler: src/presentation/functions/auth/customAuthorizer.handler
 resources:
