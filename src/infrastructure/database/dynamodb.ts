@@ -5,8 +5,8 @@ import { DbClient } from "src/domain/repositories/dbClient";
 export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap>
   implements DbClient<T>
 {
-  private readonly tableName: string;
-  private readonly documentClient: DocumentClient;
+  tableName: string;
+  documentClient: DocumentClient;
 
   constructor(tableName: string) {
     this.tableName = tableName;

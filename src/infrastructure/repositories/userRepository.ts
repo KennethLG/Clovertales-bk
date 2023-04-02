@@ -1,22 +1,20 @@
 import { User } from "src/domain/entities/user";
-import { DbClient, IUserRepository } from "src/domain/repositories/dbClient";
-import { DynamoDbClient } from "../database/dynamodb";
+import { IUserRepository } from "src/domain/repositories/dbClient";
+import { DbClientWrapper } from "../common/dbClientWrapper";
 
 export default class UserRepositoryImpl
-  extends DynamoDbClient<User>
+  extends DbClientWrapper<User>
   implements IUserRepository
 {
-  private dbClient: DbClient<User>;
-  constructor(db: DbClient<User>) {
-    super("UserTable");
-    this.dbClient = db;
+  constructor(protected dbClient: IUserRepository) {
+    super(dbClient);
   }
 
   async create(user: User) {
     return await this.dbClient.create(user);
   }
 
-  async getByEmail(email: string) {
-    return await this.dbClient.get(email);
+  async getByEmail(email: string): Promise<User | undefined> {
+    return await this.dbClient.getByEmail(email);
   }
 }
