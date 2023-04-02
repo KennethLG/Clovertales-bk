@@ -27,6 +27,7 @@ provider:
         - Fn::GetAtt: [PlatformsTable, Arn]
         - Fn::GetAtt: [PostsTable, Arn]
         - Fn::GetAtt: [GalleryTable, Arn]
+        - Fn::GetAtt: [UsersTable, Arn]
 
   environment:
     AWS_BUCKET_NAME: ${env:AWS_BUCKET_NAME}
@@ -165,6 +166,17 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: GalleryTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UsersTable
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: id
