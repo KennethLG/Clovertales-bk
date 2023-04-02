@@ -1,5 +1,5 @@
 import { Post } from "src/domain/entities/post";
-import DbClient from "src/domain/repositories/dbClient";
+import { DbClient } from "src/domain/repositories/dbClient";
 import PostRepository from "src/domain/repositories/postRepository";
 
 export default class PostRepositoryImpl implements PostRepository {

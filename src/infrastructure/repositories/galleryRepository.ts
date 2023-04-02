@@ -1,5 +1,5 @@
 import { Gallery } from "src/domain/entities/gallery";
-import DbClient from "src/domain/repositories/dbClient";
+import { DbClient } from "src/domain/repositories/dbClient";
 import GalleryRepository from "src/domain/repositories/galleryRepository";
 
 export default class GalleryRepositoryImpl implements GalleryRepository {
@@ -7,7 +7,7 @@ export default class GalleryRepositoryImpl implements GalleryRepository {
   constructor(db: DbClient<Gallery>) {
     this.dbClient = db;
   }
-  
+
   async create(gallery: Gallery): Promise<Gallery> {
     return await this.dbClient.create(gallery);
   }
@@ -23,5 +23,4 @@ export default class GalleryRepositoryImpl implements GalleryRepository {
   async delete(id: string): Promise<void> {
     await this.dbClient.delete(id);
   }
-
 }

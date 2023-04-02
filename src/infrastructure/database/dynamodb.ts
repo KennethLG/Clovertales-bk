@@ -1,6 +1,6 @@
 import AWS from "aws-sdk";
 import DynamoDB, { DocumentClient } from "aws-sdk/clients/dynamodb";
-import DbClient from "src/domain/repositories/dbClient";
+import { DbClient } from "src/domain/repositories/dbClient";
 
 export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap>
   implements DbClient<T>

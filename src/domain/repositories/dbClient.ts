@@ -1,8 +1,13 @@
-export default interface DbClient<T> {
-  // findById(id: string): Promise<T | null>;
-  create(item: T): Promise<T>;
-  get(id: string): Promise<T | undefined>;
-  getAll(): Promise<T[]>;
-  delete(id: string): Promise<void>;
-  update(id: string, updateData: Partial<T>): Promise<T | undefined>;
+import { User } from "../entities/user";
+
+export abstract class DbClient<T> {
+  abstract create(item: T): Promise<T>;
+  abstract get(id: string): Promise<T | undefined>;
+  abstract getAll(): Promise<T[]>;
+  abstract delete(id: string): Promise<void>;
+  abstract update(id: string, updateData: Partial<T>): Promise<T | undefined>;
+}
+
+export abstract class IUserRepository extends DbClient<User> {
+  abstract getByEmail(email: string): Promise<User | undefined>;
 }
