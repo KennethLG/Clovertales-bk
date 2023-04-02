@@ -1,6 +1,5 @@
 import AWS from "aws-sdk";
 import config from "src/config";
-import { v4 as uuid } from "uuid";
 
 export class S3Service {
   private s3: AWS.S3;
