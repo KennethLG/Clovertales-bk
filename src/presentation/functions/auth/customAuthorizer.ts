@@ -39,6 +39,7 @@ export const handler: APIGatewayRequestSimpleAuthorizerHandlerV2 = async (
       },
     };
   } catch (error) {
+    console.error("Authorization error: ", error);
     return {
       isAuthorized: false
     }
