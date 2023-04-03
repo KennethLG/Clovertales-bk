@@ -34,7 +34,7 @@ export class ResponseHandler {
     return this.build();
   }
 
-  created(data: any) {
+  created(data?: any) {
     this.setStatusCode(201).setBody(data);
     return this.build();
   }

@@ -7,8 +7,8 @@ export class DynamoDbUserClient
   extends DynamoDbClient<User>
   implements IUserRepository
 {
-  constructor(tableName: string) {
-    super(tableName);
+  constructor() {
+    super("UsersTable");
   }
 
   async getByEmail(email: string): Promise<User | undefined> {

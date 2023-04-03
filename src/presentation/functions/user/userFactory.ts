@@ -1,11 +1,10 @@
 import { UserService } from "src/app/services/userService";
-import { User } from "src/domain/entities/user";
 import CreateUser from "src/domain/useCases/user/createUser";
-import { DynamoDbClient } from "src/infrastructure/database/dynamodb";
+import { DynamoDbUserClient } from "src/infrastructure/database/dynamodbUser";
 import UserRepositoryImpl from "src/infrastructure/repositories/userRepository";
 
 export const createUserUseCaseFactory = () => {
-  const dbClient = new DynamoDbClient<User>("UsersTable");
+  const dbClient = new DynamoDbUserClient();
   const userRepository = new UserRepositoryImpl(dbClient);
   const userService = new UserService(userRepository);
   const createUser = new CreateUser(userService);

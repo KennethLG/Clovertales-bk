@@ -11,9 +11,9 @@ const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
 
   const createUser = createUserUseCaseFactory();
 
-  const newUser = await createUser.execute(createUserDto);
+  await createUser.execute(createUserDto);
 
-  return responseHandlerFactory().success(newUser);
+  return responseHandlerFactory().created();
 };
 
 export const handler = errorHandlerMiddleware(handlerFunction);

@@ -8,6 +8,11 @@ export default class CreateUser {
 
   async execute(userDto: CreateUserDto) {
 
+    const existingUser = await this.userService.getByEmail(userDto.email);
+    if (existingUser) {
+      return;
+    }
+
     const newUser = new User();
     newUser.id = uuidv4();
     newUser.createdAt = new Date().toISOString();
