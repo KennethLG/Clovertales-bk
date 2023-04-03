@@ -10,10 +10,6 @@ export default class UserRepositoryImpl
     super(dbClient);
   }
 
-  async create(user: User) {
-    return await this.dbClient.create(user);
-  }
-
   async getByEmail(email: string): Promise<User | undefined> {
     return await this.dbClient.getByEmail(email);
   }

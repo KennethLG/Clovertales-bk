@@ -1,14 +1,13 @@
 import { Platform } from "src/domain/entities/platform";
 import { DbClient } from "src/domain/repositories/dbClient";
 import PlatformRepository from "src/domain/repositories/platformRepository";
+import { DbClientWrapper } from "../common/dbClientWrapper";
 
-export default class PlatformRepositoryImpl implements PlatformRepository {
-  private dbClient: DbClient<Platform>;
+export default class PlatformRepositoryImpl
+  extends DbClientWrapper<Platform>
+  implements PlatformRepository
+{
   constructor(db: DbClient<Platform>) {
-    this.dbClient = db;
-  }
-  async getAll() {
-    const platforms = await this.dbClient.getAll();
-    return platforms;
+    super(db);
   }
 }
