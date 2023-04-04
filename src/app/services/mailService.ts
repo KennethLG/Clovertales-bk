@@ -23,7 +23,7 @@ export class MailService {
 
     return await this.transporter.sendMail({
       from: sendMailDto.email,
-      to: config.mailer.user,
+      to: config.mailer.dest,
       subject: `${sendMailDto.email} sent you a message`,
       text: sendMailDto.message,
       html: sendMailDto.message,

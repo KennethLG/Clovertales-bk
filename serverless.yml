@@ -40,6 +40,7 @@ provider:
     MAILER_PORT: ${env:MAILER_PORT}
     MAILER_USER: ${env:MAILER_USER}
     MAILER_PASS: ${env:MAILER_PASS}
+    MAILER_DEST: ${env:MAILER_DEST}
     SECRET_KEY: ${env:SECRET_KEY}
     SECRET_PASS: ${env:SECRET_PASS}
   httpApi:

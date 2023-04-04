@@ -4,6 +4,7 @@ export default {
     port: process.env.MAILER_PORT || 587,
     user: process.env.MAILER_USER || "test",
     pass: process.env.MAILER_PASS || "test",
+    dest: process.env.MAILER_DEST || ""
   },
   aws: {
     bucket: process.env.AWS_BUCKET_NAME as string,
