@@ -39,6 +39,11 @@ export class ResponseHandler {
     return this.build();
   }
 
+  forbbiden() {
+    this.setStatusCode(403).setBody({ error: "Unauthorized" });
+    return this.build();
+  }
+
   clientError(errorMessage: string) {
     this.setStatusCode(400).setBody({ error: errorMessage });
     return this.build();

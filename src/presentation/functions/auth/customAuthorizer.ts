@@ -1,47 +1,41 @@
 import { APIGatewayRequestSimpleAuthorizerHandlerV2 } from "aws-lambda";
 import { authUseCaseFactory } from "./authFactory";
+import { verifyIp } from "src/presentation/utils/verifyIp";
+import { isJwtPayload } from "src/presentation/utils/isJwtPayload";
 
 export const handler: APIGatewayRequestSimpleAuthorizerHandlerV2 = async (
   event
 ) => {
+  let isAuthorized = false;
+  let principalId = null;
+
   try {
     const token = event.headers?.authorization;
-  
-    if (!token) {  
-      return {
-        isAuthorized: false,
-      };
+    const ip = event.requestContext.http.sourceIp;
+
+    console.log("ip: ", ip);
+
+    const allowedIp = verifyIp(ip);
+
+    if (allowedIp && token) {
+      const methodArn = event.routeArn;
+      const auth = authUseCaseFactory();
+      const response = await auth.execute(token, methodArn);
+
+      if (isJwtPayload(response.decoded)) {
+        principalId = response.decoded.ip;
+
+        if (principalId && principalId === allowedIp) {
+          isAuthorized = true;
+        }
+      }
     }
-    const methodArn = event.routeArn;
-  
-    const auth = authUseCaseFactory();
-  
-    const response = await auth.execute(token, methodArn);
-  
-    if (!response.decoded || typeof response.decoded === "string") {
-      return {
-        isAuthorized: false,
-      };
-    }
-  
-    const principalId = response.decoded.ip;
-    if (!principalId) {
-      return {
-        isAuthorized: false,
-      };
-    }
-  
-  
-    return {
-      isAuthorized: true,
-      context: {
-        principalId,
-      },
-    };
   } catch (error) {
     console.error("Authorization error: ", error);
-    return {
-      isAuthorized: false
-    }
   }
+
+  return {
+    isAuthorized,
+    context: isAuthorized ? { principalId } : undefined,
+  };
 };

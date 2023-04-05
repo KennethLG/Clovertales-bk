@@ -11,5 +11,6 @@ export default {
     cdn: process.env.AWS_CDN as string
   },
   jwt: process.env.SECRET_KEY as string,
-  pass: process.env.SECRET_PASS as string
+  pass: process.env.SECRET_PASS as string,
+  allowedIp: process.env.ALLOWED_IP as string
 };

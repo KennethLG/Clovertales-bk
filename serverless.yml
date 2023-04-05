@@ -5,6 +5,16 @@ useDotenv: true
 custom:
   serverless-offline:
     httpPort: ${env:PORT}
+  defaultCors:
+    origin: ${env:ALLOWED_DOMAIN}
+    headers:
+      - Content-Type
+      - X-Amz-Date
+      - Authorization
+      - X-Api-Key
+      - X-Amz-Security-Token
+      - X-Amz-User-Agent
+    allowCredentials: true
 
 provider:
   name: aws
@@ -57,42 +67,49 @@ functions:
       - httpApi:
           path: /login
           method: post
+          cors: true
   getMembers:
     handler: src/presentation/functions/member/getMembers.handler
     events:
       - httpApi:
           path: /members
           method: get
+          cors: ${self:custom.defaultCors}
   getPlatforms:
     handler: src/presentation/functions/platform/getPlatforms.handler
     events:
       - httpApi:
           path: /platforms
           method: get
+          cors: ${self:custom.defaultCors}
   sendMail:
     handler: src/presentation/functions/mail/sendMail.handler
     events:
       - httpApi:
           path: /sendMail
           method: post
+          cors: ${self:custom.defaultCors}
   getPost:
     handler: src/presentation/functions/post/getPost.handler
     events:
       - httpApi:
           path: /post
           method: get
+          cors: ${self:custom.defaultCors}
   getGallery:
     handler: src/presentation/functions/gallery/getGallery.handler
     events:
       - httpApi:
           path: /gallery
           method: get
+          cors: ${self:custom.defaultCors}
   createPost:
     handler: src/presentation/functions/post/createPost.handler
     events:
       - httpApi:
           path: /post
           method: post
+          cors: true
           authorizer:
             name: customAuthorizer
   deletePost:
@@ -101,6 +118,7 @@ functions:
       - httpApi:
           path: /post
           method: delete
+          cors: true
           authorizer:
             name: customAuthorizer
   updatePost:
@@ -109,6 +127,7 @@ functions:
       - httpApi:
           path: /post
           method: put
+          cors: true
           authorizer:
             name: customAuthorizer
   createGallery:
@@ -117,6 +136,7 @@ functions:
       - httpApi:
           path: /gallery
           method: post
+          cors: true
           authorizer:
             name: customAuthorizer
   deleteGallery:
@@ -125,6 +145,7 @@ functions:
       - httpApi:
           path: /gallery
           method: delete
+          cors: true
           authorizer:
             name: customAuthorizer
   createUser:
@@ -132,6 +153,7 @@ functions:
     events:
       - httpApi:
           path: /user
+          cors: ${self:custom.defaultCors}
           method: post
   authorizerFunc:
     handler: src/presentation/functions/auth/customAuthorizer.handler
