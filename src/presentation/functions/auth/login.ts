@@ -11,9 +11,10 @@ const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   const ip = event.requestContext.http.sourceIp;
 
   const responseHandler = new ResponseHandler();
-
+  
   const allowedIp = verifyIp(ip);
   if (!allowedIp) {
+    console.log("Ip not allowed: ", ip)
     return responseHandler.forbbiden();
   }
 

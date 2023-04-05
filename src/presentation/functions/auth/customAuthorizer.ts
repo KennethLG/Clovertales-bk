@@ -1,7 +1,6 @@
 import { APIGatewayRequestSimpleAuthorizerHandlerV2 } from "aws-lambda";
 import { authUseCaseFactory } from "./authFactory";
 import { verifyIp } from "src/presentation/utils/verifyIp";
-import { isJwtPayload } from "src/presentation/utils/isJwtPayload";
 
 export const handler: APIGatewayRequestSimpleAuthorizerHandlerV2 = async (
   event
@@ -18,14 +17,17 @@ export const handler: APIGatewayRequestSimpleAuthorizerHandlerV2 = async (
     const allowedIp = verifyIp(ip);
 
     if (allowedIp && token) {
+      console.log("is allowed", token, allowedIp);
       const methodArn = event.routeArn;
       const auth = authUseCaseFactory();
       const response = await auth.execute(token, methodArn);
 
-      if (isJwtPayload(response.decoded)) {
+      if (response.decoded && typeof response.decoded !== "string") {
         principalId = response.decoded.ip;
+        console.log("response decoded ", principalId)
 
-        if (principalId && principalId === allowedIp) {
+        if (principalId && verifyIp(principalId)) {
+          console.log("is authorized")
           isAuthorized = true;
         }
       }

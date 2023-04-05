@@ -47,6 +47,7 @@ provider:
     ALLOWED_IP: ${env:ALLOWED_IP}
 
   httpApi:
+    cors: true
     authorizers:
       customAuthorizer:
         type: request
