@@ -9,12 +9,11 @@ export class MailService {
     this.transporter = nodemailer.createTransport({
       host: config.mailer.host,
       port: config.mailer.port,
-      secure: false,
       auth: {
         user: config.mailer.user,
-        pass: config.mailer.pass,
-      },
-    });
+        pass: config.mailer.pass
+      }
+    })
   }
 
   async sendMail(
