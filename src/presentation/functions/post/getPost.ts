@@ -18,7 +18,7 @@ const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   const limit = event.queryStringParameters?.limit
     ? parseInt(event.queryStringParameters.limit, 10)
     : 10;
-  const startKey = event.queryStringParameters?.startKey;
+  const startKey = event.queryStringParameters?.startKey || "";
   if (limit && startKey) {
     const getPosts = getPostsUseCaseFactory();
     const posts = await getPosts.execute(limit, startKey);
