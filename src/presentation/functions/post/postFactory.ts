@@ -1,16 +1,15 @@
 import PostService from "src/app/services/postService";
-import { Post } from "src/domain/entities/post";
 import CreatePost from "src/domain/useCases/post/createPost";
 import DeletePost from "src/domain/useCases/post/deletePost";
 import GetPost from "src/domain/useCases/post/getPost";
 import GetPosts from "src/domain/useCases/post/getPosts";
 import UpdatePost from "src/domain/useCases/post/updatePost";
-import { DynamoDbClient } from "src/infrastructure/database/dynamodb";
+import { DynamoDbPostClient } from "src/infrastructure/database/dynamodbPost";
 import PostRepositoryImpl from "src/infrastructure/repositories/postRepository";
 import { ResponseHandler } from "src/presentation/utils/responses";
 
 export const postServiceFactory = () => {
-  const dbClient = new DynamoDbClient<Post>("PostsTable");
+  const dbClient = new DynamoDbPostClient();
   const postRepository = new PostRepositoryImpl(dbClient);
   const postService = new PostService(postRepository);
   return postService;

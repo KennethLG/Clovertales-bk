@@ -1,8 +1,8 @@
 import { Post } from "src/domain/entities/post";
-import PostRepository from "src/domain/repositories/postRepository";
+import { IPostRepository } from "src/domain/repositories/dbClient";
 
 export default class PostService {
-  constructor(private postRepository: PostRepository) {}
+  constructor(private postRepository: IPostRepository) {}
 
   async create(post: Post): Promise<Post> {
     const result = await this.postRepository.create(post);
@@ -14,11 +14,11 @@ export default class PostService {
     return result;
   }
 
-  async getAll(
+  async getAllPaginated(
     limit: number,
     startKey?: string
   ): Promise<{ items: Post[]; lastEvaluatedKey?: string | undefined }> {
-    return await this.postRepository.getAll(limit, startKey);
+    return await this.postRepository.getAllPaginated(limit, startKey);
   }
 
   async delete(id: string): Promise<void> {

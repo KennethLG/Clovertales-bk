@@ -49,28 +49,13 @@ export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap>
     return result.Item as T | undefined;
   }
 
-  async getAll(
-    limit: number,
-    startKey?: string
-  ): Promise<{ items: T[]; lastEvaluatedKey?: string }> {
+  async getAll(): Promise<T[]> {
     const params: AWS.DynamoDB.DocumentClient.ScanInput = {
       TableName: this.tableName,
-      Limit: limit,
     };
-
-    if (startKey) {
-      params.ExclusiveStartKey = {
-        id: startKey,
-      };
-    }
 
     const result = await this.documentClient.scan(params).promise();
-    return {
-      items: result.Items as T[],
-      lastEvaluatedKey: result.LastEvaluatedKey
-        ? result.LastEvaluatedKey.id
-        : undefined,
-    };
+    return result.Items as T[];
   }
 
   async update(id: string, updateData: Partial<T>): Promise<T | undefined> {
