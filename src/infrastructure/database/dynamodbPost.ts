@@ -7,7 +7,7 @@ export class DynamoDbPostClient
   implements IPostRepository
 {
   constructor() {
-    super("PostTable");
+    super("PostsTable");
   }
 
   async getAllPaginated(
