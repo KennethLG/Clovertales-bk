@@ -6,7 +6,7 @@ export default class GetPosts {
 
   async execute(
     limit: number,
-    startKey: string
+    startKey?: string
   ): Promise<{ items: Post[]; lastEvaluatedKey?: string | undefined }> {
     const posts = await this.postService.getAll(limit, startKey);
     return posts;

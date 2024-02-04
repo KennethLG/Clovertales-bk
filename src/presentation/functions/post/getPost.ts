@@ -18,14 +18,11 @@ const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   const limit = event.queryStringParameters?.limit
     ? parseInt(event.queryStringParameters.limit, 10)
     : 10;
-  const startKey = event.queryStringParameters?.startKey || "";
-  if (limit && startKey) {
-    const getPosts = getPostsUseCaseFactory();
-    const posts = await getPosts.execute(limit, startKey);
-    return responseHandler.success(posts);
-  }
+  const startKey = event.queryStringParameters?.startKey;
 
-  return responseHandler.clientError("Invalid request params");
+  const getPosts = getPostsUseCaseFactory();
+  const posts = await getPosts.execute(limit, startKey);
+  return responseHandler.success(posts);
 };
 
 export const handler = errorHandlerMiddleware(handlerFunction);

@@ -16,7 +16,7 @@ export default class PostService {
 
   async getAll(
     limit: number,
-    startKey: string
+    startKey?: string
   ): Promise<{ items: Post[]; lastEvaluatedKey?: string | undefined }> {
     return await this.postRepository.getAll(limit, startKey);
   }
