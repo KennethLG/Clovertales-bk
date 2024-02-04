@@ -3,6 +3,7 @@ import { Post } from "src/domain/entities/post";
 import CreatePost from "src/domain/useCases/post/createPost";
 import DeletePost from "src/domain/useCases/post/deletePost";
 import GetPost from "src/domain/useCases/post/getPost";
+import GetPosts from "src/domain/useCases/post/getPosts";
 import UpdatePost from "src/domain/useCases/post/updatePost";
 import { DynamoDbClient } from "src/infrastructure/database/dynamodb";
 import PostRepositoryImpl from "src/infrastructure/repositories/postRepository";
@@ -13,23 +14,29 @@ export const postServiceFactory = () => {
   const postRepository = new PostRepositoryImpl(dbClient);
   const postService = new PostService(postRepository);
   return postService;
-}
+};
 
 export const responseHandlerFactory = () => {
   return new ResponseHandler();
-}
+};
 
 export const createPostUseCaseFactory = () => {
   const postService = postServiceFactory();
   const createPost = new CreatePost(postService);
   return createPost;
-}
+};
 
 export const getPostUseCaseFactory = () => {
   const postService = postServiceFactory();
   const createPost = new GetPost(postService);
   return createPost;
-}
+};
+
+export const getPostsUseCaseFactory = () => {
+  const postService = postServiceFactory();
+  const getPosts = new GetPosts(postService);
+  return getPosts;
+};
 
 export const deletePostUseCaseFactory = () => {
   const postService = postServiceFactory();
@@ -41,4 +48,4 @@ export const updatePostUseCaseFactory = () => {
   const postService = postServiceFactory();
   const createPost = new UpdatePost(postService);
   return createPost;
-}
+};

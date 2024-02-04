@@ -11,8 +11,11 @@ export class DbClientWrapper<T> implements DbClient<T> {
     return await this.dbClient.get(id);
   }
 
-  async getAll(): Promise<T[]> {
-    return await this.dbClient.getAll();
+  async getAll(
+    limit?: number,
+    startKey?: string
+  ): Promise<{ items: T[]; lastEvaluatedKey?: string | undefined }> {
+    return await this.dbClient.getAll(limit, startKey);
   }
 
   async delete(id: string): Promise<void> {

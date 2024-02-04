@@ -14,8 +14,11 @@ export default class PostService {
     return result;
   }
 
-  async getAll(): Promise<Post[]> {
-    return await this.postRepository.getAll();
+  async getAll(
+    limit: number,
+    startKey: string
+  ): Promise<{ items: Post[]; lastEvaluatedKey?: string | undefined }> {
+    return await this.postRepository.getAll(limit, startKey);
   }
 
   async delete(id: string): Promise<void> {
