@@ -8,7 +8,7 @@ export default class GetPosts {
     limit: number,
     startKey?: string
   ): Promise<{ items: Post[]; lastEvaluatedKey?: string | undefined }> {
-    const posts = await this.postService.getAll(limit, startKey);
+    const posts = await this.postService.getAllPaginated(limit, startKey);
     return posts;
   }
 }
