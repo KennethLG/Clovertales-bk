@@ -12,7 +12,7 @@ provider:
   region: "us-east-1"
   logs:
     httpApi:
-      format: 'requestId: $context.requestId, ip: $context.identity.sourceIp, caller: $context.identity.caller, user: $context.identity.user, requestTime: $context.requestTime, status: $context.status, protocol: $context.protocol, method: $context.httpMethod, resourcePath: $context.resourcePath, responseLength: $context.responseLength'
+      format: "requestId: $context.requestId, ip: $context.identity.sourceIp, caller: $context.identity.caller, user: $context.identity.user, requestTime: $context.requestTime, status: $context.status, protocol: $context.protocol, method: $context.httpMethod, resourcePath: $context.resourcePath, responseLength: $context.responseLength"
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -28,7 +28,7 @@ provider:
         - Fn::GetAtt: [PostsTable, Arn]
         - Fn::GetAtt: [GalleryTable, Arn]
         - Fn::GetAtt: [UsersTable, Arn]
-        - !Join ['', [!GetAtt UsersTable.Arn, '/index/EmailIndex']]
+        - !Join ["", [!GetAtt UsersTable.Arn, "/index/EmailIndex"]]
 
   environment:
     AWS_BUCKET_NAME: ${env:AWS_BUCKET_NAME}
@@ -169,9 +169,13 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+          - AttributeName: createdAt
+            KeyType: RANGE
     GalleryTable:
       Type: AWS::DynamoDB::Table
       Properties:
