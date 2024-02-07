@@ -1,5 +1,5 @@
 import { Expose } from "class-transformer";
-import { IsString, IsNotEmpty, IsDateString } from "class-validator";
+import { IsString, IsNotEmpty, IsDateString, IsBoolean } from "class-validator";
 
 export class CreatePostDto {
   @IsString()
@@ -49,7 +49,7 @@ export class UpdatePostDto {
   @Expose()
   imageUrl: string;
 
-  @IsString()
+  @IsBoolean()
   @IsNotEmpty()
   @Expose()
   available: boolean;
