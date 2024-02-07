@@ -20,7 +20,7 @@ export class DynamoDbPostClient
     const params: AWS.DynamoDB.DocumentClient.QueryInput = {
       TableName: this.tableName,
       KeyConditionExpression: "id = :id",
-      ExpressionAttributeValues: { ":id": "POSTS_PARTITION_KEY" },
+      ExpressionAttributeValues: { ":id": "POST" },
       ScanIndexForward: false,
       Limit: limit,
     };
