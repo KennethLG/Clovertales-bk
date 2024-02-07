@@ -3,6 +3,7 @@ import CreatePost from "src/domain/useCases/post/createPost";
 import DeletePost from "src/domain/useCases/post/deletePost";
 import GetPost from "src/domain/useCases/post/getPost";
 import GetPosts from "src/domain/useCases/post/getPosts";
+import GetPostsPaginated from "src/domain/useCases/post/getPostsPaginated";
 import UpdatePost from "src/domain/useCases/post/updatePost";
 import { DynamoDbPostClient } from "src/infrastructure/database/dynamodbPost";
 import PostRepositoryImpl from "src/infrastructure/repositories/postRepository";
@@ -34,6 +35,12 @@ export const getPostUseCaseFactory = () => {
 export const getPostsUseCaseFactory = () => {
   const postService = postServiceFactory();
   const getPosts = new GetPosts(postService);
+  return getPosts;
+};
+
+export const getPostsPaginatedUseCaseFactory = () => {
+  const postService = postServiceFactory();
+  const getPosts = new GetPostsPaginated(postService);
   return getPosts;
 };
 

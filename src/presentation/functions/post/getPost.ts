@@ -2,6 +2,7 @@ import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { errorHandlerMiddleware } from "src/app/middleware/errorHandler";
 import {
   getPostUseCaseFactory,
+  getPostsPaginatedUseCaseFactory,
   getPostsUseCaseFactory,
   responseHandlerFactory,
 } from "./postFactory";
@@ -26,9 +27,15 @@ const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
     createdAt: event.queryStringParameters?.["startKey[createdAt]"],
   };
 
-  const getPostsDto = await extractAndValidate(GetPostsDto, startKey);
+  if (startKey.id && startKey.createdAt) {
+    const getPostsDto = await extractAndValidate(GetPostsDto, startKey);
+    const getPostsPaginated = getPostsPaginatedUseCaseFactory();
+    const posts = await getPostsPaginated.execute(limit, getPostsDto);
+    return responseHandler.success(posts);
+  }
+
   const getPosts = getPostsUseCaseFactory();
-  const posts = await getPosts.execute(limit, getPostsDto);
+  const posts = await getPosts.execute();
   return responseHandler.success(posts);
 };
 

@@ -14,6 +14,11 @@ export default class PostService {
     return result;
   }
 
+  async getAll() {
+    const result = await this.postRepository.getAll();
+    return result;
+  }
+
   async getAllPaginated(
     limit: number,
     startKey?: { id: string; createdAt: string } | undefined
