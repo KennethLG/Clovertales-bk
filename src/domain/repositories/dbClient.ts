@@ -17,6 +17,10 @@ export abstract class IUserRepository extends DbClient<User> {
 }
 
 export abstract class IPostRepository extends DbClient<Post> {
+  abstract update(
+    createdAt: string,
+    updateData: Omit<Post, "id" | "createdAt">
+  ): Promise<Post | undefined>;
   abstract getAllPaginated(
     limit?: number,
     startKey?: { id: string; createdAt: string } | undefined
