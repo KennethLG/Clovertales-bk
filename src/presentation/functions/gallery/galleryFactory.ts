@@ -1,4 +1,3 @@
-import { GalleryService } from "src/infrastructure/services/galleryService";
 import { ImageUrlService } from "src/infrastructure/services/imageUrlService";
 import { S3Service } from "src/infrastructure/services/s3Service";
 import config from "src/config";
@@ -12,21 +11,20 @@ import GalleryRepositoryImpl from "src/infrastructure/repositories/galleryReposi
 export const galleryServicesFactory = () => {
   const dbClient = new DynamoDbClient<Gallery>("GalleryTable");
   const galleryRepository = new GalleryRepositoryImpl(dbClient);
-  const galleryService = new GalleryService(galleryRepository);
   const s3Service = new S3Service(config.aws.bucket);
   const imageUrlService = new ImageUrlService("resources/gallery");
   return {
-    galleryService,
+    galleryRepository,
     imageUrlService,
     s3Service,
   };
 };
 
 export const createGalleryUseCaseFactory = () => {
-  const { galleryService, imageUrlService, s3Service } =
+  const { galleryRepository, imageUrlService, s3Service } =
     galleryServicesFactory();
   const createGallery = new CreateGallery(
-    galleryService,
+    galleryRepository,
     s3Service,
     imageUrlService
   );
@@ -34,15 +32,15 @@ export const createGalleryUseCaseFactory = () => {
 };
 
 export const getGalleryUseCaseFactory = () => {
-  const { galleryService } = galleryServicesFactory();
-  const getGallery = new GetGallery(galleryService);
+  const { galleryRepository } = galleryServicesFactory();
+  const getGallery = new GetGallery(galleryRepository);
   return getGallery;
 };
 export const deleteGalleryUseCaseFactory = () => {
-  const { galleryService, imageUrlService, s3Service } =
+  const { galleryRepository, imageUrlService, s3Service } =
     galleryServicesFactory();
   const deleteGallery = new DeleteGallery(
-    galleryService,
+    galleryRepository,
     s3Service,
     imageUrlService
   );

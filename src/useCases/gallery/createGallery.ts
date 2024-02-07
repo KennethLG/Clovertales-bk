@@ -1,13 +1,13 @@
-import { GalleryService } from "src/infrastructure/services/galleryService";
 import { ImageUrlService } from "src/infrastructure/services/imageUrlService";
 import { S3Service } from "src/infrastructure/services/s3Service";
 import { Gallery } from "src/domain/entities/gallery";
 import { CreateGalleryDto } from "src/presentation/dto/galleryDto";
 import { v4 as uuidv4 } from "uuid";
+import GalleryRepository from "src/domain/repositories/galleryRepository";
 
 export default class CreateGallery {
   constructor(
-    private readonly galleryService: GalleryService,
+    private readonly galleryRepository: GalleryRepository,
     private readonly s3Service: S3Service,
     private readonly imageUrlService: ImageUrlService
   ) {}
@@ -22,7 +22,7 @@ export default class CreateGallery {
     newGallery.order = order || 0;
     newGallery.extension = extension || "";
 
-    const gallery = await this.galleryService.create(newGallery);
+    const gallery = await this.galleryRepository.create(newGallery);
 
     const path = this.imageUrlService.buildKey(gallery.id, extension);
     await this.s3Service.uploadItem(image, path);
