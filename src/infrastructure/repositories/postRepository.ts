@@ -1,6 +1,5 @@
 import { Post } from "src/domain/entities/post";
-import { DbClient, IPostRepository } from "src/domain/repositories/dbClient";
-import PostRepository from "src/domain/repositories/postRepository";
+import { IPostRepository } from "src/domain/repositories/dbClient";
 import { DbClientWrapper } from "../common/dbClientWrapper";
 
 export default class PostRepositoryImpl
@@ -13,8 +12,11 @@ export default class PostRepositoryImpl
 
   async getAllPaginated(
     limit?: number | undefined,
-    startKey?: string | undefined
-  ): Promise<{ items: Post[]; lastEvaluatedKey?: string | undefined }> {
+    startKey?: { id: string; createdAt: string } | undefined
+  ): Promise<{
+    items: Post[];
+    lastEvaluatedKey?: { id: string; createdAt: string } | undefined;
+  }> {
     return await this.dbClient.getAllPaginated(limit, startKey);
   }
 }

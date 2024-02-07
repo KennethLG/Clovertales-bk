@@ -11,25 +11,36 @@ export class DynamoDbPostClient
   }
 
   async getAllPaginated(
-    limit?: number | undefined,
-    startKey?: string | undefined
-  ): Promise<{ items: Post[]; lastEvaluatedKey?: string | undefined }> {
-    const params: AWS.DynamoDB.DocumentClient.ScanInput = {
+    limit?: number,
+    startKey?: { id: string; createdAt: string } | undefined
+  ): Promise<{
+    items: Post[];
+    lastEvaluatedKey?: { id: string; createdAt: string } | undefined;
+  }> {
+    const params: AWS.DynamoDB.DocumentClient.QueryInput = {
       TableName: this.tableName,
+      KeyConditionExpression: "id = :id",
+      ExpressionAttributeValues: { ":id": "POSTS_PARTITION_KEY" },
+      ScanIndexForward: false,
       Limit: limit,
     };
 
     if (startKey) {
       params.ExclusiveStartKey = {
-        id: startKey,
+        id: startKey.id,
+        createdAt: startKey.createdAt,
       };
     }
 
-    const result = await this.documentClient.scan(params).promise();
+    const result = await this.documentClient.query(params).promise();
+
     return {
       items: result.Items as Post[],
       lastEvaluatedKey: result.LastEvaluatedKey
-        ? result.LastEvaluatedKey.id
+        ? {
+            id: result.LastEvaluatedKey.id,
+            createdAt: result.LastEvaluatedKey.createdAt,
+          }
         : undefined,
     };
   }

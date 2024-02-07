@@ -16,6 +16,9 @@ export abstract class IUserRepository extends DbClient<User> {
 export abstract class IPostRepository extends DbClient<Post> {
   abstract getAllPaginated(
     limit?: number,
-    startKey?: string
-  ): Promise<{ items: Post[]; lastEvaluatedKey?: string | undefined }>;
+    startKey?: { id: string; createdAt: string } | undefined
+  ): Promise<{
+    items: Post[];
+    lastEvaluatedKey?: { id: string; createdAt: string } | undefined;
+  }>;
 }
