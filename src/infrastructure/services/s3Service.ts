@@ -1,7 +1,8 @@
 import AWS from "aws-sdk";
 import config from "src/config";
+import { IStorageService } from "src/domain/services/storageService";
 
-export class S3Service {
+export class S3Service implements IStorageService {
   private s3: AWS.S3;
   private bucketName: string;
 
@@ -17,7 +18,6 @@ export class S3Service {
   }
 
   async deleteItem(Key: string): Promise<void> {
-
     const params: AWS.S3.DeleteObjectRequest = {
       Bucket: this.bucketName,
       Key,
@@ -44,6 +44,9 @@ export class S3Service {
   }
 
   private createItemBuffer(base64Item: string) {
-    return Buffer.from(base64Item.replace(/^data:image\/\w+;base64,/, ""), "base64");
+    return Buffer.from(
+      base64Item.replace(/^data:image\/\w+;base64,/, ""),
+      "base64"
+    );
   }
 }

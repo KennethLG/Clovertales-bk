@@ -7,11 +7,11 @@ import { createGalleryUseCaseFactory } from "./galleryFactory";
 
 const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   const body = JSON.parse(event.body as string);
-  const createGalleryDto = await extractAndValidate(CreateGalleryDto, body);
+  const { image, order } = await extractAndValidate(CreateGalleryDto, body);
 
   const createGallery = createGalleryUseCaseFactory();
 
-  const gallery = await createGallery.execute(createGalleryDto);
+  const gallery = await createGallery.execute(order, image);
 
   return new ResponseHandler().success({
     gallery,

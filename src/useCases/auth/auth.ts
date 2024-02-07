@@ -1,7 +1,7 @@
-import { AuthService } from "src/infrastructure/services/authService";
+import { IAuthService } from "src/domain/services/authService";
 
 export default class Auth {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: IAuthService) {}
 
   execute(token: string, methodArn: string) {
     const decoded = this.authService.validateToken(token);

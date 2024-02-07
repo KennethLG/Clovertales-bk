@@ -3,7 +3,7 @@ import {
   IsString,
   IsNotEmpty,
   IsDateString,
-  IsOptional,
+  IsBooleanString,
 } from "class-validator";
 
 export class CreatePostDto {
@@ -53,6 +53,11 @@ export class UpdatePostDto {
   @IsNotEmpty()
   @Expose()
   imageUrl: string;
+
+  @IsBooleanString()
+  @IsNotEmpty()
+  @Expose()
+  available: boolean;
 }
 
 export class GetPostsDto {

@@ -1,9 +1,8 @@
-import { MailService } from "src/infrastructure/services/mailService";
-import { SendMailDto } from "src/presentation/dto/sendMailDto";
+import { IMailService } from "src/domain/services/mailService";
 
 export default class SendMail {
-  constructor(private mailService: MailService) {}
-  async execute(sendMailDto: SendMailDto) {
-    return await this.mailService.sendMail(sendMailDto);
+  constructor(private mailService: IMailService) {}
+  async execute(email: string, message: string) {
+    return await this.mailService.sendMail(email, message);
   }
 }

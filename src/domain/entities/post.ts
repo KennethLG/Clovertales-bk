@@ -1,9 +1,9 @@
-type PostCreateAttributes = Pick<
+export type PostCreateAttributes = Pick<
   Post,
   "content" | "description" | "title" | "imageUrl"
 >;
 
-type PostUdpateAttributes = Pick<
+export type PostUdpateAttributes = Pick<
   Post,
   "content" | "description" | "title" | "imageUrl" | "available"
 >;

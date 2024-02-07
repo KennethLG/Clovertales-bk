@@ -1,8 +1,8 @@
 import nodemailer, { SentMessageInfo, Transporter } from "nodemailer";
 import config from "src/config";
-import { SendMailDto } from "src/presentation/dto/sendMailDto";
+import { IMailService } from "src/domain/services/mailService";
 
-export class MailService {
+export class MailService implements IMailService {
   private transporter: Transporter;
 
   constructor() {
@@ -11,21 +11,18 @@ export class MailService {
       port: config.mailer.port,
       auth: {
         user: config.mailer.user,
-        pass: config.mailer.pass
-      }
-    })
+        pass: config.mailer.pass,
+      },
+    });
   }
 
-  async sendMail(
-    sendMailDto: SendMailDto
-  ): Promise<SentMessageInfo> {
-
+  async sendMail(email: string, message: string): Promise<SentMessageInfo> {
     return await this.transporter.sendMail({
-      from: sendMailDto.email,
+      from: email,
       to: config.mailer.dest,
-      subject: `${sendMailDto.email} sent you a message`,
-      text: sendMailDto.message,
-      html: sendMailDto.message,
+      subject: `${email} sent you a message`,
+      text: message,
+      html: message,
     });
   }
 }

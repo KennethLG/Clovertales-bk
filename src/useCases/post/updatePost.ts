@@ -1,16 +1,15 @@
-import { Post } from "src/domain/entities/post";
-import { UpdatePostDto } from "src/presentation/dto/postDto";
+import { Post, PostUdpateAttributes } from "src/domain/entities/post";
 import { BadRequestError } from "src/presentation/utils/customError";
 import { IPostRepository } from "src/domain/repositories/dbClient";
 
 export default class UpdatePost {
   constructor(private readonly postRepository: IPostRepository) {}
 
-  async execute(post: UpdatePostDto): Promise<Post> {
-    const existingPost = await this.postRepository.get(post.id);
+  async execute(id: string, post: PostUdpateAttributes): Promise<Post> {
+    const existingPost = await this.postRepository.get(id);
 
     if (!existingPost) {
-      throw new BadRequestError(`Post ${post.id} not found`);
+      throw new BadRequestError(`Post ${id} not found`);
     }
 
     const updatedPost = Post.update(existingPost, {
@@ -21,7 +20,7 @@ export default class UpdatePost {
       available: true,
     });
 
-    const result = await this.postRepository.update(post.id, updatedPost);
+    const result = await this.postRepository.update(id, updatedPost);
     if (!result) {
       throw new BadRequestError("An error occurred while updating");
     }

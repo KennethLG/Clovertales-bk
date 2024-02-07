@@ -1,9 +1,9 @@
-import { AuthService } from "src/infrastructure/services/authService";
 import config from "src/config";
 import { BadRequestError } from "src/presentation/utils/customError";
+import { IAuthService } from "src/domain/services/authService";
 
 export default class Login {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: IAuthService) {}
 
   execute(password: string, ip: string) {
     const { jwt, pass } = config;

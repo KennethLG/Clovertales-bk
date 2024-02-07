@@ -7,26 +7,30 @@ import DeleteGallery from "src/useCases/gallery/deleteGallery";
 import GetGallery from "src/useCases/gallery/getGallery";
 import { DynamoDbClient } from "src/infrastructure/database/dynamodb";
 import GalleryRepositoryImpl from "src/infrastructure/repositories/galleryRepository";
+import { UUIDService } from "src/infrastructure/services/uuidService";
 
 export const galleryServicesFactory = () => {
   const dbClient = new DynamoDbClient<Gallery>("GalleryTable");
   const galleryRepository = new GalleryRepositoryImpl(dbClient);
   const s3Service = new S3Service(config.aws.bucket);
   const imageUrlService = new ImageUrlService("resources/gallery");
+  const uuidService = new UUIDService();
   return {
     galleryRepository,
     imageUrlService,
     s3Service,
+    uuidService,
   };
 };
 
 export const createGalleryUseCaseFactory = () => {
-  const { galleryRepository, imageUrlService, s3Service } =
+  const { galleryRepository, imageUrlService, s3Service, uuidService } =
     galleryServicesFactory();
   const createGallery = new CreateGallery(
     galleryRepository,
     s3Service,
-    imageUrlService
+    imageUrlService,
+    uuidService
   );
   return createGallery;
 };

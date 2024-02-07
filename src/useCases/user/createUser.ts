@@ -1,21 +1,23 @@
 import { User } from "src/domain/entities/user";
 import UserRepository from "src/domain/repositories/userRepository";
-import { CreateUserDto } from "src/presentation/dto/userDto";
-import { v4 as uuidv4 } from "uuid";
+import { UUIDService } from "src/infrastructure/services/uuidService";
 
 export default class CreateUser {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly uuidService: UUIDService
+  ) {}
 
-  async execute(userDto: CreateUserDto) {
-    const existingUser = await this.userRepository.getByEmail(userDto.email);
+  async execute(email: string) {
+    const existingUser = await this.userRepository.getByEmail(email);
     if (existingUser) {
       return;
     }
 
     const newUser = new User();
-    newUser.id = uuidv4();
+    newUser.id = this.uuidService.generateId();
     newUser.createdAt = new Date().toISOString();
-    newUser.email = userDto.email;
+    newUser.email = email;
 
     return await this.userRepository.create(newUser);
   }
