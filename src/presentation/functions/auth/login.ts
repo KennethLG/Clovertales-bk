@@ -1,5 +1,5 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { errorHandlerMiddleware } from "src/app/middleware/errorHandler";
+import { errorHandlerMiddleware } from "src/presentation/middleware/errorHandler";
 import { LoginDto } from "src/presentation/dto/authDto";
 import { extractAndValidate } from "src/presentation/utils/extractAndValidate";
 import { ResponseHandler } from "src/presentation/utils/responses";
@@ -11,10 +11,10 @@ const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   const ip = event.requestContext.http.sourceIp;
 
   const responseHandler = new ResponseHandler();
-  
+
   const allowedIp = verifyIp(ip);
   if (!allowedIp) {
-    console.log("Ip not allowed: ", ip)
+    console.log("Ip not allowed: ", ip);
     return responseHandler.forbbiden();
   }
 

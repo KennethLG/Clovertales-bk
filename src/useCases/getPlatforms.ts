@@ -1,5 +1,5 @@
-import PlatformService from "src/app/services/platformService";
-import { Platform } from "../entities/platform";
+import PlatformService from "src/infrastructure/services/platformService";
+import { Platform } from "../domain/entities/platform";
 
 export default class GetPlatforms {
   constructor(private readonly platformService: PlatformService) {}

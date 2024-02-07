@@ -1,5 +1,5 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { errorHandlerMiddleware } from "src/app/middleware/errorHandler";
+import { errorHandlerMiddleware } from "src/presentation/middleware/errorHandler";
 import {
   getPostUseCaseFactory,
   getPostsPaginatedUseCaseFactory,

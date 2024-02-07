@@ -1,4 +1,4 @@
-import PostService from "src/app/services/postService";
+import PostService from "src/infrastructure/services/postService";
 import { Post } from "src/domain/entities/post";
 import { UpdatePostDto } from "src/presentation/dto/postDto";
 import { BadRequestError } from "src/presentation/utils/customError";

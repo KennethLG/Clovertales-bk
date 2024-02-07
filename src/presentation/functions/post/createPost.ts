@@ -1,5 +1,5 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { errorHandlerMiddleware } from "src/app/middleware/errorHandler";
+import { errorHandlerMiddleware } from "src/presentation/middleware/errorHandler";
 import { extractAndValidate } from "src/presentation/utils/extractAndValidate";
 import { CreatePostDto } from "../../dto/postDto";
 import {
@@ -7,10 +7,8 @@ import {
   responseHandlerFactory,
 } from "./postFactory";
 
-const handlerFunction: APIGatewayProxyHandlerV2 = async (
-  event
-) => {
-  const body = JSON.parse(event.body as string)
+const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
+  const body = JSON.parse(event.body as string);
   console.log(body);
   const createPostDto = await extractAndValidate(CreatePostDto, body);
 

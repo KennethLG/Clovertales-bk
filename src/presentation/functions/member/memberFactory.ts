@@ -1,6 +1,6 @@
-import MemberService from "src/app/services/memberService";
+import MemberService from "src/infrastructure/services/memberService";
 import { Member } from "src/domain/entities/member";
-import GetMembers from "src/domain/useCases/getMembers";
+import GetMembers from "src/useCases/getMembers";
 import { DynamoDbClient } from "src/infrastructure/database/dynamodb";
 import MemberRepositoryImpl from "src/infrastructure/repositories/memberRepository";
 
@@ -11,4 +11,4 @@ export const getMemberUseCaseFactory = () => {
   const getMembers = new GetMembers(memberService);
 
   return getMembers;
-}
+};

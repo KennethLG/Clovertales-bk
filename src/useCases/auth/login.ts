@@ -1,4 +1,4 @@
-import { AuthService } from "src/app/services/authService";
+import { AuthService } from "src/infrastructure/services/authService";
 import config from "src/config";
 import { BadRequestError } from "src/presentation/utils/customError";
 

@@ -6,7 +6,10 @@ export abstract class DbClient<T> {
   abstract get(id: string): Promise<T | undefined>;
   abstract getAll(): Promise<T[]>;
   abstract delete(id: string): Promise<void>;
-  abstract update(id: string, updateData: Partial<T>): Promise<T | undefined>;
+  abstract update(
+    id: string,
+    updateData: Omit<T, "id">
+  ): Promise<T | undefined>;
 }
 
 export abstract class IUserRepository extends DbClient<User> {

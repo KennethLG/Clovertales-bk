@@ -1,4 +1,4 @@
-import PostService from "src/app/services/postService";
+import PostService from "src/infrastructure/services/postService";
 
 export default class GetPosts {
   constructor(private postService: PostService) {}

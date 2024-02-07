@@ -1,6 +1,6 @@
-import PlatformService from "src/app/services/platformService";
+import PlatformService from "src/infrastructure/services/platformService";
 import { Platform } from "src/domain/entities/platform";
-import GetPlatforms from "src/domain/useCases/getPlatforms"
+import GetPlatforms from "src/useCases/getPlatforms";
 import { DynamoDbClient } from "src/infrastructure/database/dynamodb";
 import PlatformRepositoryImpl from "src/infrastructure/repositories/platformRepository";
 
@@ -10,4 +10,4 @@ export const getPlatformsUseCaseFactory = () => {
   const platformService = new PlatformService(platformRepository);
   const getPlatforms = new GetPlatforms(platformService);
   return getPlatforms;
-}
+};

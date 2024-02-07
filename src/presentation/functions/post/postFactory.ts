@@ -1,10 +1,10 @@
-import PostService from "src/app/services/postService";
-import CreatePost from "src/domain/useCases/post/createPost";
-import DeletePost from "src/domain/useCases/post/deletePost";
-import GetPost from "src/domain/useCases/post/getPost";
-import GetPosts from "src/domain/useCases/post/getPosts";
-import GetPostsPaginated from "src/domain/useCases/post/getPostsPaginated";
-import UpdatePost from "src/domain/useCases/post/updatePost";
+import PostService from "src/infrastructure/services/postService";
+import CreatePost from "src/useCases/post/createPost";
+import DeletePost from "src/useCases/post/deletePost";
+import GetPost from "src/useCases/post/getPost";
+import GetPosts from "src/useCases/post/getPosts";
+import GetPostsPaginated from "src/useCases/post/getPostsPaginated";
+import UpdatePost from "src/useCases/post/updatePost";
 import { DynamoDbPostClient } from "src/infrastructure/database/dynamodbPost";
 import PostRepositoryImpl from "src/infrastructure/repositories/postRepository";
 import { ResponseHandler } from "src/presentation/utils/responses";

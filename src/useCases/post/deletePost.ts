@@ -1,16 +1,16 @@
-import PostService from "src/app/services/postService";
-import { Post } from "src/domain/entities/post";
+import PostService from "src/infrastructure/services/postService";
 import { BadRequestError } from "src/presentation/utils/customError";
 
-export default class GetPost {
+export default class DeletePost {
   constructor(private postService: PostService) {}
 
-  async execute(id: string): Promise<Post> {
+  async execute(id: string): Promise<void> {
     const post = await this.postService.get(id);
+
     if (!post) {
       throw new BadRequestError(`Post ${id} not found`);
     }
 
-    return post;
+    return await this.postService.delete(id);
   }
 }

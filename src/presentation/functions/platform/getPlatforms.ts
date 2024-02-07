@@ -1,4 +1,4 @@
-import { errorHandlerMiddleware } from "src/app/middleware/errorHandler";
+import { errorHandlerMiddleware } from "src/presentation/middleware/errorHandler";
 import { ResponseHandler } from "src/presentation/utils/responses";
 import { getPlatformsUseCaseFactory } from "./platformFactory";
 

@@ -1,6 +1,6 @@
-import { GalleryService } from "src/app/services/galleryService";
-import { ImageUrlService } from "src/app/services/imageUrlService";
-import { S3Service } from "src/app/services/s3Service";
+import { GalleryService } from "src/infrastructure/services/galleryService";
+import { ImageUrlService } from "src/infrastructure/services/imageUrlService";
+import { S3Service } from "src/infrastructure/services/s3Service";
 
 export default class DeleteGallery {
   constructor(

@@ -1,4 +1,4 @@
-import { MailService } from "src/app/services/mailService";
+import { MailService } from "src/infrastructure/services/mailService";
 import { SendMailDto } from "src/presentation/dto/sendMailDto";
 
 export default class SendMail {

@@ -1,10 +1,11 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { errorHandlerMiddleware } from "src/app/middleware/errorHandler";
-import { deletePostUseCaseFactory, responseHandlerFactory } from "./postFactory";
+import { errorHandlerMiddleware } from "src/presentation/middleware/errorHandler";
+import {
+  deletePostUseCaseFactory,
+  responseHandlerFactory,
+} from "./postFactory";
 
-const handlerFunction: APIGatewayProxyHandlerV2 = async (
-  event
-) => {
+const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   const id = event.queryStringParameters?.id;
 
   if (!id) {
