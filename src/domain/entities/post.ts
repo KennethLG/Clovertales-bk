@@ -26,6 +26,7 @@ export class Post {
     newPost.description = post.description;
     newPost.title = post.title;
     newPost.imageUrl = post.imageUrl;
+    newPost.available = true;
     return newPost;
   }
 
