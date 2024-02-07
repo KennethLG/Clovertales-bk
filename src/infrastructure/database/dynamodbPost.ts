@@ -10,6 +10,26 @@ export class DynamoDbPostClient
     super("PostsTable");
   }
 
+  override async get(id: string): Promise<Post | undefined> {
+    const params: AWS.DynamoDB.DocumentClient.QueryInput = {
+      TableName: this.tableName,
+      KeyConditionExpression: "#pk = :pkValue and #sk = :skValue",
+      ExpressionAttributeNames: {
+        "#pk": "id",
+        "#sk": "createdAt",
+      },
+      ExpressionAttributeValues: {
+        ":pkValue": "POST",
+        ":skValue": id,
+      },
+    };
+
+    const result = await this.documentClient.query(params).promise();
+    return result.Items && result.Items.length > 0
+      ? (result.Items[0] as Post)
+      : undefined;
+  }
+
   async getAllPaginated(
     limit: number,
     startKey?: { id: string; createdAt: string }
