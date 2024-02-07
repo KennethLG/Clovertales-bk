@@ -1,28 +1,27 @@
-import PostService from "src/infrastructure/services/postService";
 import { Post } from "src/domain/entities/post";
 import { UpdatePostDto } from "src/presentation/dto/postDto";
 import { BadRequestError } from "src/presentation/utils/customError";
+import { IPostRepository } from "src/domain/repositories/dbClient";
 
 export default class UpdatePost {
-  constructor(private postService: PostService) {}
+  constructor(private readonly postRepository: IPostRepository) {}
 
   async execute(post: UpdatePostDto): Promise<Post> {
-    const existingPost = await this.postService.get(post.id);
+    const existingPost = await this.postRepository.get(post.id);
 
     if (!existingPost) {
       throw new BadRequestError(`Post ${post.id} not found`);
     }
 
-    const updatedPost = Post.update({
-      createdAt: existingPost.createdAt,
-      id: existingPost.id,
+    const updatedPost = Post.update(existingPost, {
       content: post.content,
       description: post.description,
       title: post.title,
       imageUrl: post.imageUrl,
+      available: true,
     });
 
-    const result = await this.postService.update(updatedPost);
+    const result = await this.postRepository.update(post.id, updatedPost);
     if (!result) {
       throw new BadRequestError("An error occurred while updating");
     }

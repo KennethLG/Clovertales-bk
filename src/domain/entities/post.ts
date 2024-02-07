@@ -5,7 +5,7 @@ type PostCreateAttributes = Pick<
 
 type PostUdpateAttributes = Pick<
   Post,
-  "id" | "content" | "description" | "title" | "imageUrl" | "createdAt"
+  "content" | "description" | "title" | "imageUrl" | "available"
 >;
 export class Post {
   id: string;
@@ -29,15 +29,13 @@ export class Post {
     return newPost;
   }
 
-  static update(post: PostUdpateAttributes) {
-    const newPost = new Post();
-    newPost.updatedAt = new Date().toISOString();
-    newPost.id = post.id;
-    newPost.content = post.content;
-    newPost.title = post.title;
-    newPost.description = post.description;
-    newPost.imageUrl = post.imageUrl;
-    newPost.createdAt = post.createdAt;
-    return newPost;
+  static update(base: Post, post: PostUdpateAttributes) {
+    base.updatedAt = new Date().toISOString();
+    base.content = post.content;
+    base.imageUrl = post.imageUrl;
+    base.title = post.title;
+    base.description = post.description;
+    base.available = post.available;
+    return base;
   }
 }
