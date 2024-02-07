@@ -16,8 +16,8 @@ export default class PostService {
 
   async getAllPaginated(
     limit: number,
-    startKey?: string
-  ): Promise<{ items: Post[]; lastEvaluatedKey?: string | undefined }> {
+    startKey?: { id: string; createdAt: string } | undefined
+  ) {
     return await this.postRepository.getAllPaginated(limit, startKey);
   }
 

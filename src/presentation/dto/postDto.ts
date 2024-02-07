@@ -1,22 +1,22 @@
 import { Expose } from "class-transformer";
-import { IsString, IsNotEmpty } from "class-validator";
+import { IsString, IsNotEmpty, IsDateString } from "class-validator";
 
 export class CreatePostDto {
   @IsString()
   @IsNotEmpty()
   @Expose()
   title: string = "default";
-  
+
   @IsString()
   @IsNotEmpty()
   @Expose()
   description: string;
-  
+
   @IsString()
   @IsNotEmpty()
   @Expose()
   content: string;
-  
+
   @IsString()
   @IsNotEmpty()
   @Expose()
@@ -48,4 +48,17 @@ export class UpdatePostDto {
   @IsNotEmpty()
   @Expose()
   imageUrl: string;
+}
+
+export class GetPostsDto {
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  id: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsDateString()
+  @Expose()
+  createdAt: string;
 }
