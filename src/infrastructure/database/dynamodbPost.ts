@@ -11,8 +11,8 @@ export class DynamoDbPostClient
   }
 
   async getAllPaginated(
-    limit?: number,
-    startKey?: { id: string; createdAt: string } | undefined
+    limit: number,
+    startKey?: { id: string; createdAt: string }
   ): Promise<{
     items: Post[];
     lastEvaluatedKey?: { id: string; createdAt: string } | undefined;
@@ -25,7 +25,7 @@ export class DynamoDbPostClient
       Limit: limit,
     };
 
-    if (startKey) {
+    if (startKey?.id && startKey.createdAt) {
       params.ExclusiveStartKey = {
         id: startKey.id,
         createdAt: startKey.createdAt,

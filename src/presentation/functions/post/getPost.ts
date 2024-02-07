@@ -3,7 +3,6 @@ import { errorHandlerMiddleware } from "src/app/middleware/errorHandler";
 import {
   getPostUseCaseFactory,
   getPostsPaginatedUseCaseFactory,
-  getPostsUseCaseFactory,
   responseHandlerFactory,
 } from "./postFactory";
 import { extractAndValidate } from "src/presentation/utils/extractAndValidate";
@@ -27,15 +26,14 @@ const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
     createdAt: event.queryStringParameters?.["startKey[createdAt]"],
   };
 
+  const getPostsPaginated = getPostsPaginatedUseCaseFactory();
   if (startKey.id && startKey.createdAt) {
     const getPostsDto = await extractAndValidate(GetPostsDto, startKey);
-    const getPostsPaginated = getPostsPaginatedUseCaseFactory();
     const posts = await getPostsPaginated.execute(limit, getPostsDto);
     return responseHandler.success(posts);
   }
 
-  const getPosts = getPostsUseCaseFactory();
-  const posts = await getPosts.execute();
+  const posts = await getPostsPaginated.execute(limit);
   return responseHandler.success(posts);
 };
 

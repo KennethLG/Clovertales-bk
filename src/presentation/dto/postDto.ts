@@ -1,5 +1,10 @@
 import { Expose } from "class-transformer";
-import { IsString, IsNotEmpty, IsDateString } from "class-validator";
+import {
+  IsString,
+  IsNotEmpty,
+  IsDateString,
+  IsOptional,
+} from "class-validator";
 
 export class CreatePostDto {
   @IsString()
