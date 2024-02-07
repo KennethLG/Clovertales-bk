@@ -58,7 +58,7 @@ export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap>
     return result.Items as T[];
   }
 
-  async update(id: string, updateData: Partial<T>): Promise<T | undefined> {
+  async update(id: string, updateData: Omit<T, "id">): Promise<T | undefined> {
     const updateExpression = Object.keys(updateData)
       .map((key, index) => `${key} = :value${index}`)
       .join(", ");

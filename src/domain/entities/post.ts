@@ -5,7 +5,7 @@ type PostCreateAttributes = Pick<
 
 type PostUdpateAttributes = Pick<
   Post,
-  "id" | "content" | "description" | "title" | "imageUrl"
+  "id" | "content" | "description" | "title" | "imageUrl" | "createdAt"
 >;
 export class Post {
   id: string;
@@ -37,6 +37,7 @@ export class Post {
     newPost.title = post.title;
     newPost.description = post.description;
     newPost.imageUrl = post.imageUrl;
+    newPost.createdAt = post.createdAt;
     return newPost;
   }
 }

@@ -19,7 +19,7 @@ export class DbClientWrapper<T> implements DbClient<T> {
     await this.dbClient.delete(id);
   }
 
-  async update(id: string, updateData: Partial<T>): Promise<T | undefined> {
+  async update(id: string, updateData: Omit<T, "id">): Promise<T | undefined> {
     return await this.dbClient.update(id, updateData);
   }
 }

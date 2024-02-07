@@ -31,9 +31,7 @@ export default class PostService {
   }
 
   async update(post: Post): Promise<Post | undefined> {
-    const newPost = Post.update(post);
-
-    const result = await this.postRepository.update(post.id, newPost);
+    const result = await this.postRepository.update(post.id, post);
     return result;
   }
 }

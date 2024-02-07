@@ -13,14 +13,14 @@ export default class UpdatePost {
       throw new BadRequestError(`Post ${post.id} not found`);
     }
 
-    const updatedPost = new Post();
-    updatedPost.id = existingPost.id;
-    updatedPost.createdAt = existingPost.createdAt;
-    updatedPost.updatedAt = new Date().toISOString();
-    updatedPost.content = post.content;
-    updatedPost.description = post.description;
-    updatedPost.title = post.title;
-    updatedPost.imageUrl = post.imageUrl;
+    const updatedPost = Post.update({
+      createdAt: existingPost.createdAt,
+      id: existingPost.id,
+      content: post.content,
+      description: post.description,
+      title: post.title,
+      imageUrl: post.imageUrl,
+    });
 
     const result = await this.postService.update(updatedPost);
     if (!result) {
