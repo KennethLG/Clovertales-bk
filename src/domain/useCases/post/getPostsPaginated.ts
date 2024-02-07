@@ -1,6 +1,6 @@
 import PostService from "src/app/services/postService";
 
-export default class GetPosts {
+export default class GetPostsPaginated {
   constructor(private postService: PostService) {}
 
   async execute(
