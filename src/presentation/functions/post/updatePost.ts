@@ -12,7 +12,13 @@ const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   const updatePostDto = await extractAndValidate(UpdatePostDto, body);
   const updatePost = updatePostUseCaseFactory();
 
-  const posts = await updatePost.execute(updatePostDto.id, updatePostDto);
+  const posts = await updatePost.execute(updatePostDto.id, {
+    available: updatePostDto.available,
+    content: updatePostDto.content,
+    description: updatePostDto.description,
+    imageUrl: updatePostDto.imageUrl,
+    title: updatePostDto.title,
+  });
 
   return responseHandlerFactory().success(posts);
 };

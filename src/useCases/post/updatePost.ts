@@ -17,10 +17,17 @@ export default class UpdatePost {
       description: post.description,
       title: post.title,
       imageUrl: post.imageUrl,
-      available: true,
+      available: post.available,
     });
 
-    const result = await this.postRepository.update(id, updatedPost);
+    const result = await this.postRepository.update(id, {
+      updatedAt: updatedPost.updatedAt,
+      available: updatedPost.available,
+      content: updatedPost.content,
+      description: updatedPost.description,
+      imageUrl: updatedPost.imageUrl,
+      title: updatedPost.title,
+    });
     if (!result) {
       throw new BadRequestError("An error occurred while updating");
     }
