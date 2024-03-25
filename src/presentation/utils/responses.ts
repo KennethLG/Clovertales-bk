@@ -29,7 +29,7 @@ export class ResponseHandler {
     return this;
   }
 
-  success(data: any) {
+  success(data?: any) {
     this.setStatusCode(200).setBody(data);
     return this.build();
   }

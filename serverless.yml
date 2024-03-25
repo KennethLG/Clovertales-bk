@@ -8,7 +8,7 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs18.x
   region: "us-east-1"
   logs:
     httpApi:
@@ -28,6 +28,7 @@ provider:
         - Fn::GetAtt: [PostsTable, Arn]
         - Fn::GetAtt: [GalleryTable, Arn]
         - Fn::GetAtt: [UsersTable, Arn]
+        - Fn::GetAtt: [TasksTable, Arn]
         - !Join ["", [!GetAtt UsersTable.Arn, "/index/EmailIndex"]]
 
   environment:
@@ -135,10 +136,34 @@ functions:
       - httpApi:
           path: /user
           method: post
+  taskChanged:
+    handler: src/presentation/functions/task/taskChanged.handler
+    events:
+      - httpApi:
+          path: /task
+          method: post
+      - httpApi:
+          path: /task
+          method: head
   authorizerFunc:
     handler: src/presentation/functions/auth/customAuthorizer.handler
 resources:
   Resources:
+    TasksTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: TasksTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: createdAt
+            KeyType: RANGE
     MembersTable:
       Type: AWS::DynamoDB::Table
       Properties:
