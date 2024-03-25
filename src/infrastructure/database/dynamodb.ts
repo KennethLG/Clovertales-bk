@@ -1,60 +1,80 @@
-import AWS from "aws-sdk";
-import DynamoDB, { DocumentClient } from "aws-sdk/clients/dynamodb";
+import {
+  DeleteCommandInput,
+  GetCommandInput,
+  ScanCommandInput,
+  UpdateCommandInput,
+  PutCommand,
+  DeleteCommand,
+  GetCommand,
+  ScanCommand,
+  UpdateCommand
+} from "@aws-sdk/lib-dynamodb";
+
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DbClient } from "src/domain/repositories/dbClient";
 
-export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap>
+export class DynamoDbClient<T extends Record<string, any>>
   implements DbClient<T>
 {
   tableName: string;
-  documentClient: DocumentClient;
+  documentClient: DynamoDBClient;
 
   constructor(tableName: string) {
     this.tableName = tableName;
-    this.documentClient = new AWS.DynamoDB.DocumentClient({
+    this.documentClient = new DynamoDBClient({
       region: "us-east-1",
     });
   }
 
+
+
   async delete(id: string): Promise<void> {
-    const params: AWS.DynamoDB.DocumentClient.DeleteItemInput = {
+    const params: DeleteCommandInput = {
       TableName: this.tableName,
       Key: {
         id,
       },
     };
 
-    await this.documentClient.delete(params).promise();
+    const command = new DeleteCommand(params);
+
+
+    await this.documentClient.send(command);
   }
 
   async create(item: T): Promise<T> {
-    const params = {
+    const command = new PutCommand({
       TableName: this.tableName,
       Item: item,
-    };
+    })
 
-    await this.documentClient.put(params).promise();
+    await this.documentClient.send(command);
 
     return item;
   }
 
   async get(id: string): Promise<T | undefined> {
-    const params: AWS.DynamoDB.DocumentClient.GetItemInput = {
+    const params: GetCommandInput = {
       TableName: this.tableName,
       Key: {
         id,
       },
     };
 
-    const result = await this.documentClient.get(params).promise();
+    const command = new GetCommand(params);
+
+    const result = await this.documentClient.send(command);
     return result.Item as T | undefined;
   }
 
   async getAll(): Promise<T[]> {
-    const params: AWS.DynamoDB.DocumentClient.ScanInput = {
+    const params: ScanCommandInput = {
       TableName: this.tableName,
     };
 
-    const result = await this.documentClient.scan(params).promise();
+    const command = new ScanCommand(params);
+
+    const result = await this.documentClient.send(command);
     return result.Items as T[];
   }
 
@@ -71,7 +91,7 @@ export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap>
       {} as Record<string, any>
     );
 
-    const params: AWS.DynamoDB.DocumentClient.UpdateItemInput = {
+    const params: UpdateCommandInput = {
       TableName: this.tableName,
       Key: {
         id,
@@ -81,7 +101,9 @@ export class DynamoDbClient<T extends DynamoDB.DocumentClient.AttributeMap>
       ReturnValues: "ALL_NEW",
     };
 
-    const result = await this.documentClient.update(params).promise();
+    const command = new UpdateCommand(params);
+
+    const result = await this.documentClient.send(command);
     return result.Attributes as T | undefined;
   }
 }

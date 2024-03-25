@@ -1,7 +1,7 @@
 import { User } from "src/domain/entities/user";
 import { DynamoDbClient } from "./dynamodb";
 import { IUserRepository } from "src/domain/repositories/dbClient";
-import { DocumentClient } from "aws-sdk/clients/dynamodb";
+import { QueryCommandInput, QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 export class DynamoDbUserClient
   extends DynamoDbClient<User>
@@ -12,7 +12,7 @@ export class DynamoDbUserClient
   }
 
   async getByEmail(email: string): Promise<User | undefined> {
-    const params: DocumentClient.QueryInput = {
+    const params: QueryCommandInput = {
       TableName: this.tableName,
       IndexName: "EmailIndex",
       KeyConditionExpression: "email = :email",
@@ -22,7 +22,9 @@ export class DynamoDbUserClient
       Limit: 1,
     };
 
-    const result = await this.documentClient.query(params).promise();
+    const command = new QueryCommand(params);
+
+    const result = await this.documentClient.send(command);
     return result.Items && result.Items.length > 0
       ? (result.Items[0] as User)
       : undefined;

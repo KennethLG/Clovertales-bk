@@ -1,6 +1,8 @@
 import { DynamoDbClient } from "./dynamodb";
 import { IPostRepository } from "src/domain/repositories/dbClient";
 import { Post } from "src/domain/entities/post";
+import { UpdateCommand, QueryCommand, QueryCommandInput } from "@aws-sdk/lib-dynamodb";
+
 
 export class DynamoDbPostClient
   extends DynamoDbClient<Post>
@@ -31,7 +33,7 @@ export class DynamoDbPostClient
       {}
     ) as { [key: string]: any };
 
-    const params: AWS.DynamoDB.DocumentClient.UpdateItemInput = {
+    const command = new UpdateCommand({
       TableName: this.tableName,
       Key: {
         id: "POST",
@@ -41,14 +43,14 @@ export class DynamoDbPostClient
       ExpressionAttributeNames: expressionAttributeNames,
       ExpressionAttributeValues: expressionAttributeValues,
       ReturnValues: "ALL_NEW",
-    };
+    });
 
-    const result = await this.documentClient.update(params).promise();
+    const result = await this.documentClient.send(command);
     return result.Attributes as Post;
   }
 
   override async get(id: string): Promise<Post | undefined> {
-    const params: AWS.DynamoDB.DocumentClient.QueryInput = {
+    const command = new QueryCommand({
       TableName: this.tableName,
       KeyConditionExpression: "#pk = :pkValue and #sk = :skValue",
       ExpressionAttributeNames: {
@@ -59,9 +61,8 @@ export class DynamoDbPostClient
         ":pkValue": "POST",
         ":skValue": id,
       },
-    };
-
-    const result = await this.documentClient.query(params).promise();
+    })
+    const result = await this.documentClient.send(command);
     return result.Items && result.Items.length > 0
       ? (result.Items[0] as Post)
       : undefined;
@@ -74,7 +75,7 @@ export class DynamoDbPostClient
     items: Post[];
     lastEvaluatedKey?: { id: string; createdAt: string } | undefined;
   }> {
-    const params: AWS.DynamoDB.DocumentClient.QueryInput = {
+    const params: QueryCommandInput = {
       TableName: this.tableName,
       KeyConditionExpression: "id = :id",
       ExpressionAttributeValues: { ":id": "POST" },
@@ -89,7 +90,9 @@ export class DynamoDbPostClient
       };
     }
 
-    const result = await this.documentClient.query(params).promise();
+    const command = new QueryCommand(params);
+
+    const result = await this.documentClient.send(command);
 
     return {
       items: result.Items as Post[],
