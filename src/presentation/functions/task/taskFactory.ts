@@ -5,7 +5,7 @@ import TaskRepositoryImpl from "src/infrastructure/repositories/taskRepository"
 import CreateTask from "src/useCases/task/createTask"
 
 export const createTaskUseCaseFactory = () => {
-  const db = new DynamoDbClient<Task>("T");
+  const db = new DynamoDbClient<Task>("TasksTable");
   const repository = new TaskRepositoryImpl(db);
   const createTask = new CreateTask(repository);
   return createTask;

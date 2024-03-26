@@ -6,10 +6,15 @@ import {
   createPostUseCaseFactory,
   responseHandlerFactory,
 } from "./postFactory";
+import util from 'util'
 
 const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   const body = JSON.parse(event.body as string);
-  console.log(body);
+  console.log(util.inspect(body, {
+    showHidden: false,
+    depth: null,
+    colors: true
+  }))
   const createPostDto = await extractAndValidate(CreatePostDto, body);
 
   const createPost = createPostUseCaseFactory();

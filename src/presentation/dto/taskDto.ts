@@ -1,5 +1,5 @@
 import { Expose, Type } from "class-transformer";
-import { IsDefined, IsNotEmpty, IsNotEmptyObject, IsObject, IsString, ValidateNested } from "class-validator";
+import { IsDefined, IsNotEmpty, IsNotEmptyObject, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
 
 class Card {
   @IsNotEmpty()
@@ -13,6 +13,7 @@ class Card {
   name: string;
 
   @IsString()
+  @IsOptional()
   @Expose()
   desc?: string;
 }
@@ -50,16 +51,28 @@ class ActionData {
   listBefore: List;
 }
 
-export class TrelloWebhookEvent {
-  
+class Action {
+  @IsNotEmpty()
+  @IsString()
+  @Expose()
+  type: string;
+
   @IsDefined()
   @IsNotEmptyObject()
   @IsObject()
   @Type(() => ActionData)
   @ValidateNested()
   @Expose()
-  action: {
-    type: string;
-    data: ActionData;
-  }
+  data: ActionData;
+}
+
+export class TrelloWebhookEvent {
+  
+  @IsDefined()
+  @IsNotEmptyObject()
+  @IsObject()
+  @Type(() => Action)
+  @ValidateNested()
+  @Expose()
+  action: Action;
 }
