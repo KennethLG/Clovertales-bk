@@ -1,11 +1,11 @@
 import { User } from "src/domain/entities/user";
 import { DynamoDbClient } from "./dynamodb";
-import { IUserRepository } from "src/domain/repositories/dbClient";
 import { QueryCommandInput, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import UserRepository from "src/domain/repositories/userRepository";
 
 export class DynamoDbUserClient
   extends DynamoDbClient<User>
-  implements IUserRepository
+  implements UserRepository
 {
   constructor() {
     super("UsersTable");

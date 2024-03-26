@@ -1,8 +1,8 @@
 import { Post, PostCreateAttributes } from "src/domain/entities/post";
-import { IPostRepository } from "src/domain/repositories/dbClient";
+import { PostRepository } from "src/domain/repositories/postRepository";
 
 export default class CreatePost {
-  constructor(private readonly postRepository: IPostRepository) {}
+  constructor(private readonly postRepository: PostRepository) {}
 
   async execute(post: PostCreateAttributes): Promise<Post> {
     const newPost = Post.create(post);

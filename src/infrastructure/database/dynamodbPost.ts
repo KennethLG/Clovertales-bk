@@ -1,12 +1,12 @@
 import { DynamoDbClient } from "./dynamodb";
-import { IPostRepository } from "src/domain/repositories/dbClient";
 import { Post } from "src/domain/entities/post";
 import { UpdateCommand, QueryCommand, QueryCommandInput } from "@aws-sdk/lib-dynamodb";
+import { PostRepository } from "src/domain/repositories/postRepository";
 
 
 export class DynamoDbPostClient
   extends DynamoDbClient<Post>
-  implements IPostRepository
+  implements PostRepository
 {
   constructor() {
     super("PostsTable");
@@ -66,42 +66,5 @@ export class DynamoDbPostClient
     return result.Items && result.Items.length > 0
       ? (result.Items[0] as Post)
       : undefined;
-  }
-
-  async getAllPaginated(
-    limit: number,
-    startKey?: { id: string; createdAt: string }
-  ): Promise<{
-    items: Post[];
-    lastEvaluatedKey?: { id: string; createdAt: string } | undefined;
-  }> {
-    const params: QueryCommandInput = {
-      TableName: this.tableName,
-      KeyConditionExpression: "id = :id",
-      ExpressionAttributeValues: { ":id": "POST" },
-      ScanIndexForward: false,
-      Limit: limit,
-    };
-
-    if (startKey?.id && startKey.createdAt) {
-      params.ExclusiveStartKey = {
-        id: startKey.id,
-        createdAt: startKey.createdAt,
-      };
-    }
-
-    const command = new QueryCommand(params);
-
-    const result = await this.documentClient.send(command);
-
-    return {
-      items: result.Items as Post[],
-      lastEvaluatedKey: result.LastEvaluatedKey
-        ? {
-            id: result.LastEvaluatedKey.id,
-            createdAt: result.LastEvaluatedKey.createdAt,
-          }
-        : undefined,
-    };
   }
 }

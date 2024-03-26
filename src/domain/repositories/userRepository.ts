@@ -1,6 +1,6 @@
 import { User } from "../entities/user";
+import { DbClient } from "./dbClient";
 
-export default interface UserRepository {
-  create: (user: User) => Promise<User>;
-  getByEmail: (email: string) => Promise<User | undefined>;
+export default abstract class UserRepository extends DbClient<User> {
+  abstract getByEmail(email: string): Promise<User | undefined>;
 }

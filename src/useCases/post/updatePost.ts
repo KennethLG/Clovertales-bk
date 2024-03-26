@@ -1,9 +1,9 @@
 import { Post, PostUdpateAttributes } from "src/domain/entities/post";
+import { PostRepository } from "src/domain/repositories/postRepository";
 import { BadRequestError } from "src/presentation/utils/customError";
-import { IPostRepository } from "src/domain/repositories/dbClient";
 
 export default class UpdatePost {
-  constructor(private readonly postRepository: IPostRepository) {}
+  constructor(private readonly postRepository: PostRepository) {}
 
   async execute(id: string, post: PostUdpateAttributes): Promise<Post> {
     const existingPost = await this.postRepository.get(id);

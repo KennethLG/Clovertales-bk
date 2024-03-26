@@ -22,4 +22,8 @@ export class DbClientWrapper<T> implements DbClient<T> {
   async update(id: string, updateData: Omit<T, "id">): Promise<T | undefined> {
     return await this.dbClient.update(id, updateData);
   }
+
+  async getAllPaginated(id: string, limit?: number, startKey?: { id: string; createdAt: string; }) {
+    return await this.dbClient.getAllPaginated(id, limit, startKey);
+  }
 }

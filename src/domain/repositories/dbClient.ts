@@ -1,6 +1,3 @@
-import { Post } from "../entities/post";
-import { User } from "../entities/user";
-
 export abstract class DbClient<T> {
   abstract create(item: T): Promise<T>;
   abstract get(id: string): Promise<T | undefined>;
@@ -10,22 +7,12 @@ export abstract class DbClient<T> {
     id: string,
     updateData: Omit<T, "id">
   ): Promise<T | undefined>;
-}
-
-export abstract class IUserRepository extends DbClient<User> {
-  abstract getByEmail(email: string): Promise<User | undefined>;
-}
-
-export abstract class IPostRepository extends DbClient<Post> {
-  abstract update(
-    createdAt: string,
-    updateData: Omit<Post, "id" | "createdAt">
-  ): Promise<Post | undefined>;
   abstract getAllPaginated(
+    id: string,
     limit?: number,
-    startKey?: { id: string; createdAt: string } | undefined
+    startKey?: { id: string; createdAt: string }
   ): Promise<{
-    items: Post[];
-    lastEvaluatedKey?: { id: string; createdAt: string } | undefined;
+    items: T[];
+    lastEvaluatedKey?: { id: string; createdAt: string };
   }>;
 }

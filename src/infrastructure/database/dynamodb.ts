@@ -7,7 +7,9 @@ import {
   DeleteCommand,
   GetCommand,
   ScanCommand,
-  UpdateCommand
+  UpdateCommand,
+  QueryCommandInput,
+  QueryCommand
 } from "@aws-sdk/lib-dynamodb";
 
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
@@ -105,5 +107,43 @@ export class DynamoDbClient<T extends Record<string, any>>
 
     const result = await this.documentClient.send(command);
     return result.Attributes as T | undefined;
+  }
+
+  async getAllPaginated(
+    id: string,
+    limit?: number,
+    startKey?: { id: string; createdAt: string }
+  ): Promise<{
+    items: T[];
+    lastEvaluatedKey?: { id: string; createdAt: string } | undefined;
+  }> {
+    const params: QueryCommandInput = {
+      TableName: this.tableName,
+      KeyConditionExpression: "id = :id",
+      ExpressionAttributeValues: { ":id": id },
+      ScanIndexForward: false,
+      Limit: limit,
+    };
+
+    if (startKey?.id && startKey.createdAt) {
+      params.ExclusiveStartKey = {
+        id: startKey.id,
+        createdAt: startKey.createdAt,
+      };
+    }
+
+    const command = new QueryCommand(params);
+
+    const result = await this.documentClient.send(command);
+
+    return {
+      items: result.Items as T[],
+      lastEvaluatedKey: result.LastEvaluatedKey
+        ? {
+            id: result.LastEvaluatedKey.id,
+            createdAt: result.LastEvaluatedKey.createdAt,
+          }
+        : undefined,
+    };
   }
 }
