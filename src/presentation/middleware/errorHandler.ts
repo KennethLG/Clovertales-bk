@@ -16,6 +16,7 @@ export const errorHandlerMiddleware =
         "statusCode" in result &&
         "body" in result
       ) {
+        console.log("Result: ", result)
         return result;
       } else {
         console.error("Invalid, result ", result);
