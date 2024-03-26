@@ -54,16 +54,3 @@ export class UpdatePostDto {
   @Expose()
   available: boolean;
 }
-
-export class GetPostsDto {
-  @IsString()
-  @IsNotEmpty()
-  @Expose()
-  id: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @IsDateString()
-  @Expose()
-  createdAt: string;
-}

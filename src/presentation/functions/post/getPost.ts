@@ -6,7 +6,7 @@ import {
   responseHandlerFactory,
 } from "./postFactory";
 import { extractAndValidate } from "src/presentation/utils/extractAndValidate";
-import { GetPostsDto } from "src/presentation/dto/postDto";
+import { GetPaginatedDto } from "src/presentation/dto/getPaginatedDto";
 
 const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   const id = event.queryStringParameters?.id;
@@ -28,7 +28,7 @@ const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
 
   const getPostsPaginated = getPostsPaginatedUseCaseFactory();
   if (startKey.id && startKey.createdAt) {
-    const getPostsDto = await extractAndValidate(GetPostsDto, startKey);
+    const getPostsDto = await extractAndValidate(GetPaginatedDto, startKey);
     const posts = await getPostsPaginated.execute(limit, getPostsDto);
     return responseHandler.success(posts);
   }

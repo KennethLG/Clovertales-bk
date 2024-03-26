@@ -139,6 +139,12 @@ functions:
       - httpApi:
           path: /user
           method: post
+  getTask:
+    handler: src/presentation/functions/task/getTask.handler
+    events:
+      - httpApi:
+          path: /task
+          method: get
   taskChanged:
     handler: src/presentation/functions/task/taskChanged.handler
     timeout: 10
