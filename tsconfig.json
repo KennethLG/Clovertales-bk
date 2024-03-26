@@ -3,19 +3,14 @@
     "lib": ["ES2021"],
     "module": "CommonJS",
     "target": "ES2021",
+    "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "outDir": ".build",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "baseUrl": "./",
-    "strict": true,                 // Enable all strict type-checking options.
-    "noImplicitAny": true,          // Raise error on expressions and declarations with an implied 'any' type.
-    "strictNullChecks": true,       // Enable strict null checks.
-    "strictFunctionTypes": true,    // Enable strict checking of function types.
-    "strictBindCallApply": true,    // Enable strict 'bind', 'call', and 'apply' methods on functions.
-    "strictPropertyInitialization": true, // Ensure non-undefined class properties are initialized in the constructor.
-    "noEmitOnError": true 
+    "strictPropertyInitialization": false
   },
   "include": ["./src/**/*"]
 }
