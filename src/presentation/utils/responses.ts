@@ -39,7 +39,7 @@ export class ResponseHandler {
     return this.build();
   }
 
-  forbbiden() {
+  forbidden() {
     this.setStatusCode(403).setBody({ error: "Unauthorized" });
     return this.build();
   }
