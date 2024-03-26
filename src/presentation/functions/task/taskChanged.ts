@@ -30,7 +30,8 @@ const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   const createTask = createTaskUseCaseFactory();
   const task = await createTask.exec({
     description: dto.action.data.card.desc,
-    title: dto.action.data.card.name
+    title: dto.action.data.card.name,
+    id: dto.action.data.card.id
   })
 
   return responseHandler.success(task);

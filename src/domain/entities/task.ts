@@ -1,4 +1,4 @@
-export type TaskCreateAttributes = Pick<Task, "title" | "description">
+export type TaskCreateAttributes = Pick<Task, "title" | "description" | "id">
 
 export class Task {
   id: string;

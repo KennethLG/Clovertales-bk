@@ -46,6 +46,9 @@ provider:
     SECRET_PASS: ${env:SECRET_PASS}
     ALLOWED_DOMAIN: ${env:ALLOWED_DOMAIN}
     ALLOWED_IP: ${env:ALLOWED_IP}
+    TRELLO_GET_CARD: ${env:TRELLO_GET_CARD}
+    TRELLO_API_KEY: ${env:TRELLO_API_KEY}
+    TRELLO_TOKEN: ${env:TRELLO_TOKEN}
 
   httpApi:
     cors: true
@@ -138,6 +141,7 @@ functions:
           method: post
   taskChanged:
     handler: src/presentation/functions/task/taskChanged.handler
+    timeout: 10
     events:
       - httpApi:
           path: /task
