@@ -26,14 +26,14 @@ const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   if (listAfter !== 'Done') {
     return responseHandler.clientError(`The listAfter is not the desired. Name: ${listAfter}`);
   }
-  
+
   const createTask = createTaskUseCaseFactory();
-  createTask.exec({
+  const task = await createTask.exec({
     description: dto.action.data.card.desc,
     title: dto.action.data.card.name
   })
 
-  return responseHandler.success();
+  return responseHandler.success(task);
 }
 
 export const handler = errorHandlerMiddleware(handlerFunction);
