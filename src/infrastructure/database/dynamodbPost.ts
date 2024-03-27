@@ -45,8 +45,13 @@ export class DynamoDbPostClient
       ReturnValues: "ALL_NEW",
     });
 
-    const result = await this.documentClient.send(command);
-    return result.Attributes as Post;
+    try {
+      const result = await this.documentClient.send(command);
+      return result.Attributes as Post;
+    } catch (error) {
+      console.error("Error executing UpdateCommand on DynamoDbPostClient", error);
+      throw error;
+    }
   }
 
   override async get(id: string): Promise<Post | undefined> {
@@ -62,9 +67,15 @@ export class DynamoDbPostClient
         ":skValue": id,
       },
     })
-    const result = await this.documentClient.send(command);
-    return result.Items && result.Items.length > 0
-      ? (result.Items[0] as Post)
-      : undefined;
+    
+    try {
+      const result = await this.documentClient.send(command);
+      return result.Items && result.Items.length > 0
+        ? (result.Items[0] as Post)
+        : undefined;
+    } catch (error) {
+      console.error("Error executing QueryCommand on DynamoDbPostClient", error);
+      throw error;
+    }
   }
 }

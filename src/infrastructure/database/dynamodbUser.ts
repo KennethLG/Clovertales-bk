@@ -24,9 +24,14 @@ export class DynamoDbUserClient
 
     const command = new QueryCommand(params);
 
-    const result = await this.documentClient.send(command);
-    return result.Items && result.Items.length > 0
-      ? (result.Items[0] as User)
-      : undefined;
+    try {
+      const result = await this.documentClient.send(command);
+      return result.Items && result.Items.length > 0
+        ? (result.Items[0] as User)
+        : undefined;
+    } catch (error) {
+      console.error("Error executing QueryCommand on DynamoDbUserClient", error);
+      throw error;
+    }
   }
 }

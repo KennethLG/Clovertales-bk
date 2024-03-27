@@ -19,11 +19,12 @@ const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   const responseHandler = responseHandlerFactory();
 
   if (startKey.id && startKey.createdAt) {
+    console.log("Start pagination");
     const getTasksDto = await extractAndValidate(GetPaginatedDto, startKey);
     const tasks = await getTasksPaginated.execute(limit, getTasksDto);
     return responseHandler.success(tasks);
   }
-
+  console.log("Not pagination");
   const tasks = await getTasksPaginated.execute(limit);
   return responseHandler.success(tasks)
 

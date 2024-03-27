@@ -26,13 +26,16 @@ const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
     createdAt: event.queryStringParameters?.["startKey[createdAt]"],
   };
 
+  console.log(startKey)
+
   const getPostsPaginated = getPostsPaginatedUseCaseFactory();
   if (startKey.id && startKey.createdAt) {
+    console.log("Start pagination");
     const getPostsDto = await extractAndValidate(GetPaginatedDto, startKey);
     const posts = await getPostsPaginated.execute(limit, getPostsDto);
     return responseHandler.success(posts);
   }
-
+  console.log("Not pagination");
   const posts = await getPostsPaginated.execute(limit);
   return responseHandler.success(posts);
 };

@@ -9,7 +9,7 @@ import {
   ScanCommand,
   UpdateCommand,
   QueryCommandInput,
-  QueryCommand
+  QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
@@ -28,8 +28,6 @@ export class DynamoDbClient<T extends Record<string, any>>
     });
   }
 
-
-
   async delete(id: string): Promise<void> {
     const params: DeleteCommandInput = {
       TableName: this.tableName,
@@ -40,17 +38,26 @@ export class DynamoDbClient<T extends Record<string, any>>
 
     const command = new DeleteCommand(params);
 
-
-    await this.documentClient.send(command);
+    try {
+      await this.documentClient.send(command);
+    } catch (error) {
+      console.error("Error executing DeleteCommand", error);
+      throw error;
+    }
   }
 
   async create(item: T): Promise<T> {
     const command = new PutCommand({
       TableName: this.tableName,
       Item: item,
-    })
+    });
 
-    await this.documentClient.send(command);
+    try {
+      await this.documentClient.send(command);
+    } catch (error) {
+      console.error("Error executing PutCommand", error);
+      throw error;
+    }
 
     return item;
   }
@@ -65,8 +72,13 @@ export class DynamoDbClient<T extends Record<string, any>>
 
     const command = new GetCommand(params);
 
-    const result = await this.documentClient.send(command);
-    return result.Item as T | undefined;
+    try {
+      const result = await this.documentClient.send(command);
+      return result.Item as T | undefined;
+    } catch (error) {
+      console.error("Error executing GetCommand", error);
+      throw error;
+    }
   }
 
   async getAll(): Promise<T[]> {
@@ -76,8 +88,13 @@ export class DynamoDbClient<T extends Record<string, any>>
 
     const command = new ScanCommand(params);
 
-    const result = await this.documentClient.send(command);
-    return result.Items as T[];
+    try {
+      const result = await this.documentClient.send(command);
+      return result.Items as T[];
+    } catch (error) {
+      console.error("Error executing ScanCommand", error);
+      throw error;
+    }
   }
 
   async update(id: string, updateData: Omit<T, "id">): Promise<T | undefined> {
@@ -105,8 +122,15 @@ export class DynamoDbClient<T extends Record<string, any>>
 
     const command = new UpdateCommand(params);
 
-    const result = await this.documentClient.send(command);
-    return result.Attributes as T | undefined;
+    try {
+      const result = await this.documentClient.send(command);
+      return result.Attributes as T | undefined;
+    } catch (error) {
+      console.error("Error executing UpdateCommand", error);
+      throw error;
+    }
+
+    
   }
 
   async getAllPaginated(
@@ -134,16 +158,21 @@ export class DynamoDbClient<T extends Record<string, any>>
 
     const command = new QueryCommand(params);
 
-    const result = await this.documentClient.send(command);
+    try {
+      const result = await this.documentClient.send(command);
 
-    return {
-      items: result.Items as T[],
-      lastEvaluatedKey: result.LastEvaluatedKey
-        ? {
-            id: result.LastEvaluatedKey.id,
-            createdAt: result.LastEvaluatedKey.createdAt,
-          }
-        : undefined,
-    };
+      return {
+        items: result.Items as T[],
+        lastEvaluatedKey: result.LastEvaluatedKey
+          ? {
+              id: result.LastEvaluatedKey.id,
+              createdAt: result.LastEvaluatedKey.createdAt,
+            }
+          : undefined,
+      };
+    } catch (error) {
+      console.error("Error executing QueryCommand", error);
+      throw error;
+    }
   }
 }
