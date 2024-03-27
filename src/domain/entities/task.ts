@@ -1,10 +1,16 @@
 export type TaskCreateAttributes = Pick<Task, "title" | "description" | "id">
 
+type Attachment = {
+  id: string;
+  url: string;
+}
+
 export class Task {
   id: string;
   createdAt: string;
   title: string;
   description?: string;
+  attachments?: Attachment[]; // list of URLs
 
   static create(task: TaskCreateAttributes) {
     const newTask = new Task();

@@ -1,21 +1,46 @@
-import { ITrelloService, TrelloCard } from "src/domain/services/trelloService";
+import { ITrelloService, TrelloAttachment, TrelloCard } from "src/domain/services/trelloService";
 import axios from 'axios';
 import config from "src/config";
 
 export class TrelloService implements ITrelloService {
   async getCard(id: string) {
-    let url = config.trello.getCard;
-
-    url = url.replace("{id}", id)
-    url = url.replace("APIKey", config.trello.apiKey);
-    url = url.replace("APIToken", config.trello.token);
-
+    const url = this.replaceParams(config.trello.getCard, id);
+  
     try {
-      const response = await axios.get(url)
+      const response = await axios.get(url);
       return response.data as TrelloCard;
     } catch (error) {
-      console.error("There was an error getting the card", error);
+      console.error("There was an error getting the card: ", error);
       return null;
     }
+  }
+
+  async getCardAttachments(id: string) {
+    const url = this.replaceParams(config.trello.getCardAttachments, id);
+    try {
+      const response = await axios.get(url);
+      console.log("attachments", response.data)
+
+      return response.data as TrelloAttachment[];
+    } catch (error) {
+      console.error("There was an error getting the card attachments: ", error);
+      return null;
+    }
+  }
+
+  private replaceParams(url: string, id: string) {
+    url = this.replaceSecrets(url);
+    url = this.replaceId(url, id);
+    return url;
+  }
+
+  private replaceSecrets(url: string) {
+    url = url.replace("APIKey", config.trello.apiKey);
+    url = url.replace("APIToken", config.trello.token);
+    return url;
+  }
+
+  private replaceId(url: string, id: string) {
+    return url.replace("{id}", id);
   }
 }

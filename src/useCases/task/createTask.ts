@@ -1,24 +1,53 @@
 import { Task, TaskCreateAttributes } from "src/domain/entities/task";
 import TaskRepository from "src/domain/repositories/taskRepository";
-import { TrelloService } from "src/infrastructure/services/trelloService";
+import { ITrelloService, TrelloAttachment, TrelloCard } from "src/domain/services/trelloService";
 
 export default class CreateTask {
   constructor(
     private readonly taskRepository: TaskRepository,
-    private readonly trelloService: TrelloService
+    private readonly trelloService: ITrelloService
   ) {}
 
   async exec(task: TaskCreateAttributes) {
-    const trelloTask = await this.getTaskDescription(task.id)
+
+    const promises = [this.getTask(task.id), this.getTaskAttachments(task.id)];
+
+    const [taskResult, attachmentsResult] = await Promise.allSettled(promises);
+
+    let description;
+    let attachments;
+
+    if (taskResult.status === "fulfilled") {
+      description = (taskResult.value as TrelloCard).desc;
+    }
+
+    if (attachmentsResult.status === "fulfilled") {
+      const attachmentsValues = attachmentsResult.value as TrelloAttachment[];
+      const extractedAttachments = this.extractAttachmentsData(attachmentsValues);
+      attachments = extractedAttachments;
+    }
+
     const newTask = Task.create(task);
-    newTask.description = trelloTask?.desc;
+    newTask.description = description;
+    newTask.attachments = attachments;
+
     return await this.taskRepository.create(newTask);
   }
 
-  private async getTaskDescription(id: string) {
+  private extractAttachmentsData(attachments: TrelloAttachment[]) {
+    return attachments.map((attachment) => ({
+      id: attachment.id,
+      url: attachment.url
+    }))
+  }
+
+  private async getTask(id: string) {
     const response = await this.trelloService.getCard(id);
-    if (response) {
-      return response;
-    }
+    return response;
+  }
+
+  private async getTaskAttachments(id: string) {
+    const response = await this.trelloService.getCardAttachments(id);
+    return response;
   }
 }

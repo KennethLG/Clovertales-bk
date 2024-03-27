@@ -15,6 +15,7 @@ export default {
   allowedIp: process.env.ALLOWED_IP as string,
   trello: {
     getCard: process.env.TRELLO_GET_CARD as string,
+    getCardAttachments: process.env.TRELLO_GET_CARD_ATTACHMENTS as string,
     apiKey: process.env.TRELLO_API_KEY as string,
     token: process.env.TRELLO_TOKEN as string
   }
