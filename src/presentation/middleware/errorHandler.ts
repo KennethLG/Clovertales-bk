@@ -1,7 +1,14 @@
 import { APIGatewayProxyHandlerV2, APIGatewayProxyResultV2 } from "aws-lambda";
 import { ValidationError } from "class-validator";
-import { CustomError } from "src/presentation/utils/customError";
+import { BadRequestError, CustomError } from "src/presentation/utils/customError";
 import { ResponseHandler } from "src/presentation/utils/responses";
+
+function translateDatabaseError(error: any): Error {
+  if (error.name === 'ValidationException' || error.__type === 'com.amazon.coral.validate#ValidationException') {
+    return new BadRequestError("The request parameters are invalid.");
+  }
+  return error;
+}
 
 export const errorHandlerMiddleware =
   (handler: APIGatewayProxyHandlerV2): APIGatewayProxyHandlerV2 =>
@@ -24,8 +31,13 @@ export const errorHandlerMiddleware =
       }
     } catch (error) {
       const responseHandler = new ResponseHandler();
+      const translatedError = translateDatabaseError(error);
       
       console.error("Unexpected error: ", error);
+
+      if (translatedError instanceof BadRequestError) {
+        return responseHandler.clientError(translatedError.message);
+      }
 
       if (
         Array.isArray(error) &&
