@@ -17,14 +17,18 @@ export default class CreateTask {
     let description;
     let attachments;
 
-    if (taskResult.status === "fulfilled") {
+    if (taskResult.status === "fulfilled" && taskResult.value) {
       description = (taskResult.value as TrelloCard).desc;
+    } else {
+      console.warn('No description found or failed to get task');
     }
 
-    if (attachmentsResult.status === "fulfilled") {
+    if (attachmentsResult.status === "fulfilled" && attachmentsResult.value) {
       const attachmentsValues = attachmentsResult.value as TrelloAttachment[];
       const extractedAttachments = this.extractAttachmentsData(attachmentsValues);
       attachments = extractedAttachments;
+    } else {
+      console.warn('No attachments found or failed to load attachments');
     }
 
     const newTask = Task.create(task);

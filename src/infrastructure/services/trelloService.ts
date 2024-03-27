@@ -11,7 +11,7 @@ export class TrelloService implements ITrelloService {
       return response.data as TrelloCard;
     } catch (error) {
       console.error("There was an error getting the card: ", error);
-      return null;
+      throw new Error('Failed to fetch card details');
     }
   }
 
@@ -24,7 +24,7 @@ export class TrelloService implements ITrelloService {
       return response.data as TrelloAttachment[];
     } catch (error) {
       console.error("There was an error getting the card attachments: ", error);
-      return null;
+      throw new Error('Failed to fetch card attachments');
     }
   }
 

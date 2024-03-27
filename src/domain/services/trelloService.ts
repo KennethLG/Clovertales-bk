@@ -10,6 +10,6 @@ export type TrelloCard = {
 }
 
 export abstract class ITrelloService {
-  getCard: (id: string) => Promise<TrelloCard | null>;
-  getCardAttachments: (id: string) => Promise<TrelloAttachment[] | null>;
+  getCard: (id: string) => Promise<TrelloCard>;
+  getCardAttachments: (id: string) => Promise<TrelloAttachment[]>;
 }
