@@ -19,6 +19,7 @@ export default class CreateTask {
 
     if (taskResult.status === "fulfilled" && taskResult.value) {
       description = (taskResult.value as TrelloCard).desc;
+      description = this.cleanDescription(description);
     } else {
       console.warn('No description found or failed to get task');
     }
@@ -43,6 +44,13 @@ export default class CreateTask {
       id: attachment.id,
       url: attachment.url
     }))
+  }
+
+  private cleanDescription(description: string) {
+    const noMarkdownImages = description.replace(/!\[.*?\]\((.*?)\)/g, '');
+    const cleanText = noMarkdownImages.replace(/https?:\/\/[^\s]+/g, '');
+  
+    return cleanText;
   }
 
   private async getTask(id: string) {
