@@ -11,6 +11,9 @@ export class Task {
   title: string;
   description?: string;
   attachments?: Attachment[]; // list of URLs
+  type?: string;
+  level?: string;
+  timing?: string;
 
   static create(task: TaskCreateAttributes) {
     const newTask = new Task();
