@@ -116,7 +116,8 @@ export default class CreateTask {
       let cleanTitle = "";
       const noLevel = levelMatch ? title.replace(levelMatch, "") : title;
       const noType = typeMatch ? noLevel.replace(typeMatch, "") : noLevel;
-      cleanTitle = noType;
+      const noColon = noType.replace(':', '');
+      cleanTitle = noColon;
       return cleanTitle;
     } catch (error) {
       console.log("🚀 ~ CreateTask ~ cleanTitle ~ error:", error);
