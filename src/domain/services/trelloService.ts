@@ -7,7 +7,7 @@ export type TrelloAttachment = {
 export type TrelloCard = {
   id: string;
   desc: string;
-  title: string;
+  name: string;
 }
 
 export abstract class ITrelloService {

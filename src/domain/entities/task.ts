@@ -8,7 +8,7 @@ type Attachment = {
 export class Task {
   id: string;
   createdAt: string;
-  title: string;
+  title?: string;
   description?: string;
   attachments?: Attachment[]; // list of URLs
   type?: string;
