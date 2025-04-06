@@ -12,11 +12,11 @@ const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
 
   const responseHandler = new ResponseHandler();
 
-  const allowedIp = verifyIp(ip);
-  if (!allowedIp) {
-    console.log("Ip not allowed: ", ip);
-    return responseHandler.forbbiden();
-  }
+  //const allowedIp = verifyIp(ip);
+  //if (!allowedIp) {
+  //  console.log("Ip not allowed: ", ip);
+  //  return responseHandler.forbidden();
+  //}
 
   const loginDto = await extractAndValidate(LoginDto, body);
   const login = loginUseCaseFactory();
