@@ -24,7 +24,7 @@ export default class CreateGallery {
 
     const gallery = await this.galleryRepository.create(newGallery);
 
-    const path = this.imageUrlService.buildKey(gallery.id, extension);
+    const path = this.imageUrlService.buildKey(gallery.id, extension, "resources/gallery");
     await this.storageService.uploadItem(image, path);
 
     return gallery;

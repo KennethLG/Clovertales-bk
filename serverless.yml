@@ -156,6 +156,12 @@ functions:
       - httpApi:
           path: /task
           method: head
+  uploadBlogImage:
+    handler: src/presentation/functions/blog/uploadBlogImage.handler
+    events:
+      - httpApi:
+          path: /blog
+          method: post
   authorizerFunc:
     handler: src/presentation/functions/auth/customAuthorizer.handler
 resources:

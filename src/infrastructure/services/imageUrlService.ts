@@ -1,9 +1,7 @@
 import { IImageUrlService } from "src/domain/services/imageUrlService";
 
 export class ImageUrlService implements IImageUrlService {
-  constructor(private readonly basePath: string) {}
-
-  buildKey(id: string, extension: string) {
-    return `${this.basePath}/${id}.${extension}`;
+  buildKey(id: string, extension: string, basePath: string) {
+    return `${basePath}/${id}.${extension}`;
   }
 }
