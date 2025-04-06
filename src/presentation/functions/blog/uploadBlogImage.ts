@@ -3,7 +3,7 @@ import { CreateBlogImageDto } from "src/presentation/dto/blogDto";
 import { errorHandlerMiddleware } from "src/presentation/middleware/errorHandler";
 import { extractAndValidate } from "src/presentation/utils/extractAndValidate";
 import { ResponseHandler } from "src/presentation/utils/responses";
-import { createUploadBlogImageUseCaseFactory } from "./uploadBlogImageFactory";
+import { createUploadBlogImageUseCaseFactory } from "./blogFactory";
 
 const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   const body = JSON.parse(event.body as string);

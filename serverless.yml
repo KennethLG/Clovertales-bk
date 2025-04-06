@@ -162,6 +162,16 @@ functions:
       - httpApi:
           path: /blog
           method: post
+          authorizer:
+            name: customAuthorizer
+  getBlogImages:
+    handler: src/presentation/functions/blog/getBlogImages.handler
+    events:
+      - httpApi:
+          path: /blog
+          method: get
+          authorizer:
+            name: customAuthorizer
   authorizerFunc:
     handler: src/presentation/functions/auth/customAuthorizer.handler
 resources:
