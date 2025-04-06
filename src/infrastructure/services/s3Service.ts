@@ -8,6 +8,7 @@ import {
   PutObjectCommandInput,
   S3,
 } from "@aws-sdk/client-s3";
+import config from "src/config";
 import { IStorageService } from "src/domain/services/storageService";
 
 export class S3Service implements IStorageService {
@@ -50,12 +51,11 @@ export class S3Service implements IStorageService {
   }
 
   private getImageUrlsList(objects: _Object[]) {
-    const region = "us-east-1";
     return objects.filter(
       (obj) => obj.Key && !obj.Key.endsWith("/"),
     ).map(
         (obj) =>
-          `https://${this.bucketName}.s3.${region}.amazonaws.com/${obj.Key}`,
+          `${config.aws.cdn}/${obj.Key}`,
       );
   }
 

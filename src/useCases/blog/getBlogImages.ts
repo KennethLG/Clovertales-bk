@@ -6,7 +6,7 @@ export class GetBlogImages {
   ) {}
 
   async execute() {
-    const images = await this.storageService.getItems("/resources/blog");
+    const images = await this.storageService.getItems("resources/blog");
     return images;
   }
 }

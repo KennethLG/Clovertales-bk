@@ -11,7 +11,7 @@ export class UploadBlogImage {
     const path = this.imageUrlService.buildKey(
       name,
       extension,
-      "/resources/blog",
+      "resources/blog",
     );
     await this.storageService.uploadItem(image, path);
   }
