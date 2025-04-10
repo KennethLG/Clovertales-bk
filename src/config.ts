@@ -1,3 +1,4 @@
+// env variables
 export default {
   mailer: {
     host: process.env.MAILER_HOST || "smtp.gmail.com",
