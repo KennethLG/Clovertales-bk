@@ -7,13 +7,16 @@ import {
 
 const handlerFunction: APIGatewayProxyHandlerV2 = async (event) => {
   const id = event.queryStringParameters?.id;
+  const createdAt = event.queryStringParameters?.createdAt;
 
-  if (!id) {
-    return responseHandlerFactory().clientError("Please provide a ID");
+  if (!id || !createdAt) {
+    return responseHandlerFactory().clientError(
+      "Please provide both id and createdAt",
+    );
   }
 
-  const getPost = deletePostUseCaseFactory();
-  const posts = await getPost.execute(id);
+  const deletePost = deletePostUseCaseFactory();
+  const posts = await deletePost.execute(id, createdAt);
   return responseHandlerFactory().success(posts);
 };
 

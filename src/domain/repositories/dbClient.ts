@@ -3,6 +3,7 @@ export abstract class DbClient<T> {
   abstract get(id: string): Promise<T | undefined>;
   abstract getAll(): Promise<T[]>;
   abstract delete(id: string): Promise<void>;
+  abstract deleteComposite(id: string, createdAt: string): Promise<void>;
   abstract update(
     id: string,
     updateData: Omit<T, "id">

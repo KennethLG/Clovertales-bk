@@ -46,6 +46,25 @@ export class DynamoDbClient<T extends Record<string, any>>
     }
   }
 
+  async deleteComposite(id: string, createdAt: string): Promise<void> {
+    const params: DeleteCommandInput = {
+      TableName: this.tableName,
+      Key: {
+        id,
+        createdAt,
+      },
+    };
+
+    const command = new DeleteCommand(params);
+
+    try {
+      await this.documentClient.send(command);
+    } catch (error) {
+      console.error("Error executing composite DeleteCommand", error);
+      throw error;
+    }
+  }
+
   async create(item: T): Promise<T> {
     const command = new PutCommand({
       TableName: this.tableName,
@@ -107,7 +126,7 @@ export class DynamoDbClient<T extends Record<string, any>>
         accumulator[`:value${index}`] = updateData[key];
         return accumulator;
       },
-      {} as Record<string, any>
+      {} as Record<string, any>,
     );
 
     const params: UpdateCommandInput = {
@@ -129,14 +148,12 @@ export class DynamoDbClient<T extends Record<string, any>>
       console.error("Error executing UpdateCommand", error);
       throw error;
     }
-
-    
   }
 
   async getAllPaginated(
     id: string,
     limit?: number,
-    startKey?: { id: string; createdAt: string }
+    startKey?: { id: string; createdAt: string },
   ): Promise<{
     items: T[];
     lastEvaluatedKey?: { id: string; createdAt: string } | undefined;
