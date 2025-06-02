@@ -1,6 +1,5 @@
 service: cloverstory-bk
-frameworkVersion: "3"
-useDotenv: true
+frameworkVersion: "4"
 
 custom:
   serverless-offline:
@@ -8,8 +7,9 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs22.x
   region: "us-east-1"
+  profile: backend
   logs:
     httpApi:
       format: "requestId: $context.requestId, ip: $context.identity.sourceIp, caller: $context.identity.caller, user: $context.identity.user, requestTime: $context.requestTime, status: $context.status, protocol: $context.protocol, method: $context.httpMethod, resourcePath: $context.resourcePath, responseLength: $context.responseLength"
@@ -261,5 +261,4 @@ resources:
               ProjectionType: ALL
 
 plugins:
-  - serverless-esbuild
   - serverless-offline

@@ -26,4 +26,8 @@ export class DbClientWrapper<T> implements DbClient<T> {
   async getAllPaginated(id: string, limit?: number, startKey?: { id: string; createdAt: string; }) {
     return await this.dbClient.getAllPaginated(id, limit, startKey);
   }
+
+  async deleteComposite(id: string, createdAt: string): Promise<void> {
+      return await this.dbClient.deleteComposite(id, createdAt);
+  }
 }

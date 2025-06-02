@@ -6,4 +6,5 @@ export abstract class PostRepository extends DbClient<Post> {
     createdAt: string,
     updateData: Omit<Post, "id" | "createdAt">
   ): Promise<Post | undefined>;
+  abstract deleteComposite(id: string, createdAt: string): Promise<void>;
 }
